@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Search users" />
+        <item
+            android:id="@+id/nav_nearby"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Nearby users" />
+        <item
+            android:id="@+id/nav_my"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My acquaintances" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Settings" />
+    </group>
+
+    <item android:title="My account">
+        <menu>
+            <item
+                android:id="@+id/nav_account"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Account info" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>
