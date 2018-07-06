@@ -10,4 +10,8 @@ public class Details {
     public double latitude;
     public double longitude;
     public double distance;
+
+    public String toString() {
+        return id + ": " + name + " (" + latitude + ", " + longitude + ", " + distance + ")";
+    }
 }

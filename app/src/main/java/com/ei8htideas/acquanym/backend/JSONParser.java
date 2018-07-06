@@ -21,30 +21,19 @@ public class JSONParser extends Thread {
         }
 
         public void extend(String seq) {
-            synchronized (lock) {
-                input += seq;
-            }
+            input += seq;
         }
 
         public boolean isMatch(String seq) {
-            while(isEmpty());
-            synchronized (lock) {
-                return input.startsWith(seq);
-            }
+            return input.startsWith(seq);
         }
 
         public boolean isNum() {
-            while(isEmpty());
-            synchronized (lock) {
-                return "1234567890".contains(input.substring(0, 1));
-            }
+            return "1234567890".contains(input.substring(0, 1));
         }
 
         public void next() throws EOFException {
-            while(isEmpty());
-            synchronized (lock) {
-                input = input.substring(1);
-            }
+            input = input.substring(1);
         }
 
         public void snext() throws EOFException {
@@ -54,23 +43,15 @@ public class JSONParser extends Thread {
         }
 
         public void strip() {
-            while(isEmpty());
-            synchronized (lock) {
-                input = input.trim();
-            }
+            input = input.trim();
         }
 
         public String first() {
-            while(isEmpty());
-            synchronized (lock) {
-                return input.substring(0, 1);
-            }
+            return input.substring(0, 1);
         }
 
         public boolean isEmpty() {
-            synchronized (lock) {
-                return input.length() == 0;
-            }
+            return input.length() == 0;
         }
 
         public String toString() {
@@ -80,7 +61,6 @@ public class JSONParser extends Thread {
 
     private Token token;
     private Object result;
-    private final Object lock = new Object();
 
     public JSONParser(String input) {
         token = new Token(input);
@@ -88,6 +68,10 @@ public class JSONParser extends Thread {
 
     public JSONParser() {
         token = new Token("");
+    }
+
+    public Object parse() throws EOFException {
+        return parseExp();
     }
 
     public void feed(char c) {
@@ -209,7 +193,7 @@ public class JSONParser extends Thread {
         /*JSONParser parser = new JSONParser("[{-10.01: 10.1010101, 12: -12}, \"hello\"]");
         System.out.println(parser.parse());*/
 
-        System.out.println(DBReader.getNearby(100, 100, 0.01));
+        System.out.println(DBReader.searchUsers(100, 100, 7, "name", "Joe Bloggs"));
     }
 
 
