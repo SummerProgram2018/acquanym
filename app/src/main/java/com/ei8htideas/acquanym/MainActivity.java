@@ -1,10 +1,12 @@
 package com.ei8htideas.acquanym;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.ei8htideas.acquanym.background.Subprocess;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,7 +33,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Log.i("MainActivity", "service started");
+                startService(view);
+                Snackbar.make(view, "Service has started!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.e("MainActivity", "msg");
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -86,7 +94,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new SearchFragment();
                 break;
             case R.id.nav_my:
-                fragment = new MyFragment();
+                fragment = new MapFragment();
                 break;
         }
 
@@ -108,5 +116,9 @@ public class MainActivity extends AppCompatActivity
         displaySelectedScreen(item.getItemId());
         //make this method blank
         return true;
+    }
+
+    public void startService(View view) {
+        startService(new Intent(getBaseContext(), Subprocess.class));
     }
 }
