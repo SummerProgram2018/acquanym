@@ -15,7 +15,7 @@ import android.widget.Toast;
  * Created by Frances on 09/07/2018.
  */
 
-public class ListFragment extends Activity { //Fragment {
+public class ListFragment extends Fragment {
 
     ListView list;
     String[] name = {"Frances", "Henry", "Coming", "Catherine", "Adrian", "Archit"};
@@ -32,7 +32,7 @@ public class ListFragment extends Activity { //Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_list_fragment);
-        UserListAdapter listAdapter = new UserListAdapter(ListFragment.this, name, job);
+        UserListAdapter listAdapter = new UserListAdapter(MainActivity, name, job);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(listAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
