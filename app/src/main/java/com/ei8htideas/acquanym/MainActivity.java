@@ -1,11 +1,16 @@
 package com.ei8htideas.acquanym;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,6 +22,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ei8htideas.acquanym.backend.Details;
+import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.background.Subprocess;
 
 public class MainActivity extends AppCompatActivity
@@ -28,6 +35,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Session.setMyDetails(new Details());
+        Session.setMain(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -90,10 +100,10 @@ public class MainActivity extends AppCompatActivity
 
         //initializing the fragment object which is selected
         switch (itemId) {
-            case R.id.nav_search:
+            case R.id.nav_users:
                 fragment = new SearchFragment();
                 break;
-            case R.id.nav_my:
+            case R.id.nav_acq:
                 fragment = new MapFragment();
                 break;
         }
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void startService(View view) {
-        startService(new Intent(getBaseContext(), Subprocess.class));
+        Intent intent = new Intent(getBaseContext(), Subprocess.class);
+        startService(intent);
     }
 }

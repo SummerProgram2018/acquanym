@@ -50,41 +50,37 @@ public class DBReader {
         return null;
     }
 
-    public static List<Details> searchAllAcqs(double my_lat, double my_long, int my_id,
-                                              String order) {
+    public static List<Details> searchAllAcqs(Details me, String order) {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
-                my_lat, my_long, my_id, order);
+                me.latitude, me.longitude, me.id, order);
 
         return readDB(surl);
     }
 
-    public static List<Details> searchAcqs(double my_lat, double my_long, int my_id,
-                                           String order, String search) {
+    public static List<Details> searchAcqs(Details me, String order, String search) {
         String surl = HOST + String.format("searchacqs?lat=%f&long=%f&id=%d&order=%s&search=%s",
-                my_lat, my_long, my_id, order, search);
+                me.latitude, me.longitude, me.id, order, search);
 
         return readDB(surl);
     }
 
-    public static List<Details> searchAllUsers(double my_lat, double my_long, int my_id,
-                                               String order) {
+    public static List<Details> searchAllUsers(Details me, String order) {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
-                my_lat, my_long, my_id, order);
+                me.latitude, me.longitude, me.id, order);
 
         return readDB(surl);
     }
 
-    public static List<Details> searchUsers(double my_lat, double my_long, int my_id,
-                                            String order, String search) {
+    public static List<Details> searchUsers(Details me, String order, String search) {
         String surl = HOST + String.format("searchusers?lat=%f&long=%f&id=%d&order=%s&search=%s",
-                my_lat, my_long, my_id, order, search);
+                me.latitude, me.longitude, me.id, order, search);
 
         return readDB(surl);
     }
 
-    public static List<Details> getNearby(double my_lat, double my_long, double range) {
+    public static List<Details> getNearby(Details me, double range) {
         String surl = HOST + String.format("nearby?lat=%f&long=%f&range=%f",
-                my_lat, my_long, range);
+                me.latitude, me.longitude, range);
 
         return readDB(surl);
     }

@@ -193,7 +193,6 @@ public class JSONParser extends Thread {
         /*JSONParser parser = new JSONParser("[{-10.01: 10.1010101, 12: -12}, \"hello\"]");
         System.out.println(parser.parse());*/
 
-        System.out.println(DBReader.searchUsers(100, 100, 7, "name", "Joe Bloggs"));
     }
 
 
