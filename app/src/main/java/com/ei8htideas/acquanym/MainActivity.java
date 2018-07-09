@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new SearchFragment();
                 break;
             case R.id.nav_my:
-                fragment = new MyFragment();
+                fragment = new MapFragment();
                 break;
         }
 
