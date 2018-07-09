@@ -18,10 +18,10 @@ public class Subprocess extends Service {
 
     private final static int INTERVAL = 1000*60*2;
     private Handler handler = new Handler();
-    private Runnable handlerTask = new Runnable() {
+    private Runnable autoWrite = new Runnable() {
         public void run() {
             Log.i("Subprocess", "yay");
-            handler.postDelayed(handlerTask, INTERVAL);
+            handler.postDelayed(autoWrite, INTERVAL);
         }
     };
 
@@ -33,7 +33,7 @@ public class Subprocess extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        handlerTask.run();
+        autoWrite.run();
         return Service.START_STICKY;
     }
 }
