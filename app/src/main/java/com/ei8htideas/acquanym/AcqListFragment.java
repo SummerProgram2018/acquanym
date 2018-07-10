@@ -18,11 +18,8 @@ import com.ei8htideas.acquanym.backend.Session;
 
 import java.util.ArrayList;
 
-/**
- * Created by Frances on 09/07/2018.
- */
 
-public class UserListFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class AcqListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private ListView list;
     /**String[] name = {"Adrian Van Katwyk", "Archit Sharma", "Bruce Bu", "Catherine Lee", "Celine Leung", "Coming Zhang", "Daniel Ju",

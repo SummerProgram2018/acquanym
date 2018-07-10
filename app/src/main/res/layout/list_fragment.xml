@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context=".ListFragment">
+    tools:context=".UserListFragment">
 
 
     <LinearLayout
@@ -13,9 +13,10 @@
         android:orientation="vertical">
 
         <SearchView
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Search by name, username or phone number...">
+            android:queryHint="Enter name, username or phone number...">
 
         </SearchView>
 

@@ -1,6 +1,7 @@
 package com.ei8htideas.acquanym;
 
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,13 +22,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.background.Subprocess;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SearchView searchview;
+    private UserListAdapter userListAdapter;
+    private ArrayList<Details> people;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +112,19 @@ public class MainActivity extends AppCompatActivity
         switch (itemId) {
             case R.id.nav_users:
                 fragment = new UserListFragment();
+
+                /**SearchManager searchManager = (SearchManager)
+                        getSystemService(Context.SEARCH_SERVICE);
+                searchMenuItem = menu.findItem(R.id.search);
+                searchView = (SearchView) searchMenuItem.getActionView();
+
+                searchView.setSearchableInfo(searchManager.
+                        getSearchableInfo(getComponentName()));
+                searchView.setSubmitButtonEnabled(true);
+                searchView.setOnQueryTextListener(this);
+                */
                 break;
+
             case R.id.nav_acq:
                 fragment = new MapFragment();
                 break;
@@ -132,4 +154,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getBaseContext(), Subprocess.class);
         startService(intent);
     }
+
+
+
 }
