@@ -30,6 +30,7 @@ public class DBReader {
                 s += String.valueOf((char)i);
             }
 
+            System.out.println(s);
             List<Map<Object, Object>> result = (List<Map<Object, Object>>)new JSONParser(s).parse();
             List<Details> detailList = new ArrayList<>();
             for(Map<Object, Object> map : result) {

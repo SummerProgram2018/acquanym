@@ -12,6 +12,19 @@ public class Details {
     public double latitude;
     public double longitude;
     public double distance;
+    public String title;
+
+    public Details() {}
+
+    public Details(int id, String name, double latitude, double longitude, double distance,
+                   String title) {
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.distance = distance;
+        this.title = title;
+    }
 
 
     public String toString() {

@@ -25,7 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SearchView;
-
+import android.widget.CheckBox;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.background.Subprocess;
@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        Log.e("MainActivity", "msg");
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -111,7 +110,10 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_acq:
-                fragment = new MapFragment();
+                fragment = new UserListFragment();
+                break;
+            case R.id.nav_account:
+                fragment = new ProfileFragment();
                 break;
         }
 
@@ -140,5 +142,33 @@ public class MainActivity extends AppCompatActivity
         startService(intent);
     }
 
+    public void onCheckboxClicked(View view) {
+        CheckBox chk1 = (CheckBox) findViewById(R.id.checkBox_100);
+        CheckBox chk2 = (CheckBox) findViewById(R.id.checkBox_200);
+        CheckBox chk3 = (CheckBox) findViewById(R.id.checkBox_500);
+
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.checkBox_100:
+                if(checked) {
+                    chk2.setChecked(false);
+                    chk3.setChecked(false);
+                }
+                break;
+            case R.id.checkBox_200:
+                if(checked) {
+                    chk1.setChecked(false);
+                    chk3.setChecked(false);
+                }
+                break;
+            case R.id.checkBox_500:
+                if(checked) {
+                    chk1.setChecked(false);
+                    chk2.setChecked(false);
+                }
+                break;
+        }
+    }
 
 }
