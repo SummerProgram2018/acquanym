@@ -17,7 +17,7 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.my_fragment, container, false);
+        return inflater.inflate(R.layout.login_fragment, container, false);
     }
 
     @Override
