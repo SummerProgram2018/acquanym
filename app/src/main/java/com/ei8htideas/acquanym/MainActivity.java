@@ -108,12 +108,14 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_users:
                 fragment = new UserListFragment();
                 break;
-
             case R.id.nav_acq:
-                fragment = new UserListFragment();
+                fragment = new AcqListFragment();
                 break;
             case R.id.nav_account:
                 fragment = new ProfileFragment();
+                break;
+            case R.id.nav_map:
+                fragment = new MapFragment();
                 break;
         }
 
