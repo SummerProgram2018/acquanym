@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.ei8htideas.acquanym.backend.Details;
@@ -31,9 +33,11 @@ import com.ei8htideas.acquanym.background.Subprocess;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+                    SearchView.OnQueryTextListener {
 
-    private SearchView searchview;
+    private SearchView searchView;
+    private ListView listView;
     private UserListAdapter userListAdapter;
     private ArrayList<Details> people;
 
@@ -69,6 +73,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /**
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) findViewById(R.id.search);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        */
     }
 
     @Override
@@ -113,6 +124,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_users:
                 fragment = new UserListFragment();
 
+
                 /**SearchManager searchManager = (SearchManager)
                         getSystemService(Context.SEARCH_SERVICE);
                 searchMenuItem = menu.findItem(R.id.search);
@@ -155,6 +167,22 @@ public class MainActivity extends AppCompatActivity
         startService(intent);
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        userListAdapter.getFilter().filter(newText);
+        if (TextUtils.isEmpty(newText)) {
+            listView.clearTextFilter();
+        } else {
+            listView.setFilterText(newText.toString());
+        }
+
+        return true;
+    }
 
 
 }

@@ -37,7 +37,7 @@ public class UserListAdapter extends ArrayAdapter implements Filterable {
         this.context = context;
         this.people = people;
         this.filteredPeople = people;
-        typeface = Typeface.createFromAsset(context.getAssets(), "fonts/vegure_2.otf");
+        //typeface = Typeface.createFromAsset(context.getAssets(), "@fonts/vegure_2.otf");
 
         getFilter();
     }

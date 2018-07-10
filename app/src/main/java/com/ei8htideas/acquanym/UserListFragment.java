@@ -1,11 +1,15 @@
 package com.ei8htideas.acquanym;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,33 +17,56 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by Frances on 09/07/2018.
  */
 
-public class UserListFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class UserListFragment extends Fragment {
 
-    private ListView list;
-    /**String[] name = {"Adrian Van Katwyk", "Archit Sharma", "Bruce Bu", "Catherine Lee", "Celine Leung", "Coming Zhang", "Daniel Ju",
-     "Frances Wong", "Henry O'Brien", "James Gabauer", "Richy Liu", "Sunny Xiang"}*/
-
-    private ArrayList<Details> people; // This is just set to be a list of all users!!
+    private View rootView;
+    private ListView listView;
+    private SearchView searchView;
+    private ArrayList<Details> people;
     private UserListAdapter userListAdapter;
 
+    ArrayList<Details> mAllData = new ArrayList<Details>();
 
-    @Nullable
+
+    //@Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_fragment, container, false);
+
+        /**SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        search = (SearchView) getView().findViewById(R.id.search);
+
+        search.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        search.setSubmitButtonEnabled(true);
+        search.setOnQueryTextListener(this);
+        */
+        /**
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) getView().findViewById(R.id.search);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        */
+
+        rootView = inflater.inflate(R.layout.list_fragment, container, false);
+        people = (ArrayList) DBReader.searchAllUsers(Session.getMyDetails(), "name");
+
         UserListAdapter listAdapter = new UserListAdapter(Session.getMain(), people);
-        list = (ListView) view.findViewById(R.id.list);
-        list.setAdapter(listAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView = (ListView) rootView.findViewById(R.id.list);
+        listView.setAdapter(listAdapter);
+        doSearch();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -47,7 +74,7 @@ public class UserListFragment extends Fragment implements SearchView.OnQueryText
                 ft.commit();
             }
         });
-        return view;
+        return rootView;
     }
 
     @Override
@@ -56,22 +83,24 @@ public class UserListFragment extends Fragment implements SearchView.OnQueryText
         getActivity().setTitle("Search Users");
     }
 
+    private void doSearch() {
+        final SearchView et = (SearchView)rootView.findViewById(R.id.search);
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        userListAdapter.getFilter().filter(newText);
-        if (TextUtils.isEmpty(newText)) {
-            list.clearTextFilter();
-        } else {
-            list.setFilterText(newText.toString());
-        }
+            }
 
-        return true;
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = et.getText().toString().toLowerCase(Locale.getDefault());
+                filter(text);
+            }
+        });
     }
 
 }
