@@ -10,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,7 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.CheckBox;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.background.Subprocess;
@@ -103,7 +102,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = new UserListFragment();
                 break;
             case R.id.nav_acq:
-                fragment = new MapFragment();
+                fragment = new UserListFragment();
+                break;
+            case R.id.nav_account:
+                fragment = new ProfileFragment();
                 break;
         }
 
@@ -130,5 +132,34 @@ public class MainActivity extends AppCompatActivity
     public void startService(View view) {
         Intent intent = new Intent(getBaseContext(), Subprocess.class);
         startService(intent);
+    }
+
+    public void onCheckboxClicked(View view) {
+        CheckBox chk1 = (CheckBox) findViewById(R.id.checkBox_100);
+        CheckBox chk2 = (CheckBox) findViewById(R.id.checkBox_200);
+        CheckBox chk3 = (CheckBox) findViewById(R.id.checkBox_500);
+
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.checkBox_100:
+                if(checked) {
+                    chk2.setChecked(false);
+                    chk3.setChecked(false);
+                }
+                break;
+            case R.id.checkBox_200:
+                if(checked) {
+                    chk1.setChecked(false);
+                    chk3.setChecked(false);
+                }
+                break;
+            case R.id.checkBox_500:
+                if(checked) {
+                    chk1.setChecked(false);
+                    chk2.setChecked(false);
+                }
+                break;
+        }
     }
 }
