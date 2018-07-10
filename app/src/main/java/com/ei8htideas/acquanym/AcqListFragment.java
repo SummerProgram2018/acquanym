@@ -3,72 +3,92 @@ package com.ei8htideas.acquanym;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SearchView;
 
+import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
-public class AcqListFragment extends Fragment implements SearchView.OnQueryTextListener {
+/**
+ * Created by Frances on 09/07/2018.
+ */
 
-    private ListView list;
-    /**String[] name = {"Adrian Van Katwyk", "Archit Sharma", "Bruce Bu", "Catherine Lee", "Celine Leung", "Coming Zhang", "Daniel Ju",
-     "Frances Wong", "Henry O'Brien", "James Gabauer", "Richy Liu", "Sunny Xiang"}*/
+public class AcqListFragment extends Fragment {
 
-    private ArrayList<Details> people; // This is just set to be a list of all users!!
-    private UserListAdapter userListAdapter;
+    private View rootView;
+    private ArrayAdapter<Details> adapter;
+    private List<Details> people;
+    private ListView lv;
+    ArrayList<Details> mAllData=new ArrayList<Details>();
 
-
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_fragment, container, false);
-        UserListAdapter listAdapter = new UserListAdapter(Session.getMain(), people);
-        list = (ListView) view.findViewById(R.id.list);
-        list.setAdapter(listAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        rootView = inflater.inflate(R.layout.acq_list_fragment, container, false);
+        populatePeopleList();
+        doSearch();
+        return rootView;
+    }
+
+    private void doSearch() {
+        final EditText et = (EditText)rootView.findViewById(R.id.search);
+        et.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_frame, new MapFragment()); // this needs to be the profile fragment - Adrian
-                ft.commit();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = et.getText().toString().toLowerCase(Locale.getDefault());
+                filter(text);
             }
         });
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Search Users");
     }
 
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
+
+    private void populatePeopleList() {
+        people = new ArrayList<Details>();
+        people = (ArrayList) DBReader.searchAllAcqs(Session.getMyDetails(), "name"); // fix this
+
+        mAllData.addAll(people);
+        lv = (ListView)rootView.findViewById(R.id.list);
+        adapter = new UserListAdapter(getActivity().getApplicationContext(), R.layout.list_item, people);
+        lv.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        userListAdapter.getFilter().filter(newText);
-        if (TextUtils.isEmpty(newText)) {
-            list.clearTextFilter();
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        people.clear();
+        if (charText.length() == 0) {
+            people.addAll(mAllData);
         } else {
-            list.setFilterText(newText.toString());
+            for (Details wp : mAllData) {
+                if (wp.name.toLowerCase(Locale.getDefault()).contains(charText)
+                        || wp.username.toLowerCase(Locale.getDefault()).contains(charText)) {
+                    people.add(wp);
+                }
+            }
         }
-
-        return true;
+        adapter.notifyDataSetChanged();
     }
+
 
 }

@@ -33,14 +33,7 @@ import com.ei8htideas.acquanym.background.Subprocess;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-                    SearchView.OnQueryTextListener {
-
-    private SearchView searchView;
-    private ListView listView;
-    private UserListAdapter userListAdapter;
-    private ArrayList<Details> people;
-
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
     @Override
@@ -72,14 +65,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        /**
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) findViewById(R.id.search);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(this);
-        */
     }
 
     @Override
@@ -123,18 +108,6 @@ public class MainActivity extends AppCompatActivity
         switch (itemId) {
             case R.id.nav_users:
                 fragment = new UserListFragment();
-
-
-                /**SearchManager searchManager = (SearchManager)
-                        getSystemService(Context.SEARCH_SERVICE);
-                searchMenuItem = menu.findItem(R.id.search);
-                searchView = (SearchView) searchMenuItem.getActionView();
-
-                searchView.setSearchableInfo(searchManager.
-                        getSearchableInfo(getComponentName()));
-                searchView.setSubmitButtonEnabled(true);
-                searchView.setOnQueryTextListener(this);
-                */
                 break;
 
             case R.id.nav_acq:
@@ -165,23 +138,6 @@ public class MainActivity extends AppCompatActivity
     public void startService(View view) {
         Intent intent = new Intent(getBaseContext(), Subprocess.class);
         startService(intent);
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        userListAdapter.getFilter().filter(newText);
-        if (TextUtils.isEmpty(newText)) {
-            listView.clearTextFilter();
-        } else {
-            listView.setFilterText(newText.toString());
-        }
-
-        return true;
     }
 
 
