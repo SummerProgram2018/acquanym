@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         //initializing the fragment object which is selected
         switch (itemId) {
             case R.id.nav_users:
-                fragment = new SearchFragment();
+                fragment = new UserListFragment();
                 break;
             case R.id.nav_acq:
                 fragment = new MapFragment();

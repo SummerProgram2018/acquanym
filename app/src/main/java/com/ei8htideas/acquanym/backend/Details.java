@@ -29,7 +29,7 @@ public class Details {
     }
 
     public boolean equals(Object o) {
-        return o instanceof Details && ((Details)o).id == id && ((Details)o).name == name &&
-                ((Details)o).latitude == latitude && ((Details)o).longitude == longitude;
+        return o instanceof Details && ((Details) o).id == id && ((Details) o).name == name &&
+                ((Details) o).latitude == latitude && ((Details) o).longitude == longitude;
     }
 }
