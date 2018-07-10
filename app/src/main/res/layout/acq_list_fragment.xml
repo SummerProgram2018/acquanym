@@ -13,12 +13,13 @@
         android:orientation="vertical"
         android:layout_alignParentLeft="true">
 
-        <SearchView
+        <EditText
+            android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Search by name, username or phone number...">
+            android:text="Search by name or username">
 
-        </SearchView>
+        </EditText>
 
         <LinearLayout
             android:layout_width="match_parent"

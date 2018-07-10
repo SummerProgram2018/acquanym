@@ -25,7 +25,7 @@ import java.util.Locale;
  * Created by Frances on 09/07/2018.
  */
 
-public class UserListFragment extends Fragment {
+public class AcqListFragment extends Fragment {
 
     private View rootView;
     private ArrayAdapter<Details> adapter;
@@ -35,7 +35,7 @@ public class UserListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.user_list_fragment, container, false);
+        rootView = inflater.inflate(R.layout.acq_list_fragment, container, false);
         populatePeopleList();
         doSearch();
         return rootView;
@@ -65,7 +65,7 @@ public class UserListFragment extends Fragment {
 
     private void populatePeopleList() {
         people = new ArrayList<Details>();
-        people = (ArrayList) DBReader.searchAllUsers(Session.getMyDetails(), "name"); // fix this
+        people = (ArrayList) DBReader.searchAllAcqs(Session.getMyDetails(), "name"); // fix this
 
         mAllData.addAll(people);
         lv = (ListView)rootView.findViewById(R.id.list);

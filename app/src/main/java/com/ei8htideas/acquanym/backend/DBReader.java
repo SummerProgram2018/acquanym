@@ -55,7 +55,29 @@ public class DBReader {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        return readDB(surl);
+        ArrayList<Details> help = new ArrayList<Details>();
+
+        Details yes = new Details();
+        yes.id = 1;
+        yes.username = "yo";
+        yes.name="Heck";
+        yes.job = "student";
+        yes.latitude=100.10;
+        yes.longitude=100;
+        yes.distance=20;
+        help.add(yes);
+
+        Details no = new Details();
+        no.id = 2;
+        no.username = "nsdo";
+        no.name="Yeah";
+        no.job = "studentz";
+        no.latitude=109;
+        no.longitude=-27;
+        no.distance=150;
+        help.add(no);
+
+        return help; //readDB(surl);
     }
 
     public static List<Details> searchAcqs(Details me, String order, String search) {
@@ -69,7 +91,29 @@ public class DBReader {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        return readDB(surl);
+        ArrayList<Details> help = new ArrayList<Details>();
+
+        Details yes = new Details();
+        yes.id = 1;
+        yes.username = "yo";
+        yes.name="yes";
+        yes.job = "student";
+        yes.latitude=100.10;
+        yes.longitude=100;
+        yes.distance=20;
+        help.add(yes);
+
+        Details no = new Details();
+        no.id = 2;
+        no.username = "nsdo";
+        no.name="no";
+        no.job = "studentz";
+        no.latitude=109;
+        no.longitude=-27;
+        no.distance=150;
+        help.add(no);
+
+        return help; //readDB(surl);
     }
 
     public static List<Details> searchUsers(Details me, String order, String search) {
