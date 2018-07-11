@@ -44,7 +44,6 @@ public class Subprocess extends Service {
     private Runnable runnable = new Runnable() {
         public void run() {
             setLastLoc();
-            nearbyNotification();
             handler.postDelayed(runnable, SERVICE_DELAY);
         }
     };
@@ -81,7 +80,7 @@ public class Subprocess extends Service {
                             me.latitude = location.getLatitude();
                             me.longitude = location.getLongitude();
                             lastLoc = location;
-                            new LocationWriter().start();
+                            new DBWriter().writeLocation(me);
                             Log.d("Location", "Location written to DB: " + me.latitude + ", " + me.longitude);
                         }
                     }
@@ -95,34 +94,6 @@ public class Subprocess extends Service {
                 });
     }
 
-    private void nearbyNotification() {
-        NearbyReader r = new NearbyReader();
-        r.range = 0.5;
-        r.start();
-        try {
-            r.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<Details> nearby = r.nearby;
-        Log.i("Nearby", nearby.toString());
-        if(nearby.isEmpty()) {
-            return;
-        }
-        Details closest = null;
-        for(Details details : nearby) {
-            if(!Session.userChecked(details)) {
-                closest = details;
-                break;
-            }
-        }
-        if(closest == null) {
-            return;
-        }
-        Log.i("Nearby", String.format("%s is %f metres away", closest.name, closest.distance*1000));
-        Session.addCheckedUser(closest);
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -133,20 +104,5 @@ public class Subprocess extends Service {
         double a = 0.5 - Math.cos((lat2 - lat1) * p)/2 + Math.cos(lat1 * p) * Math.cos(lat2 * p) *
                 (1 - Math.cos((long2 - long1) * p)) / 2;
         return 12742 * Math.asin(Math.sqrt(a));
-    }
-
-    private class LocationWriter extends Thread {
-        public void run() {
-            new DBWriter().writeLocation(me);
-        }
-    }
-
-    private class NearbyReader extends Thread {
-        public double range;
-        public List<Details> nearby;
-
-        public void run() {
-            nearby = new DBReader().getNearby(me, range);
-        }
     }
 }

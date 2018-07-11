@@ -7,9 +7,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.crypto.Cipher;
 
 /**
  * Created by Henry on 6/07/2018.
@@ -31,6 +34,8 @@ public class DBReader {
             while((i = reader.read()) != -1) {
                 s += String.valueOf((char)i);
             }
+
+            System.out.println(s);
 
             List<Map<Object, Object>> result = (List<Map<Object, Object>>)new JSONParser(s).parse();
             List<Details> detailList = new ArrayList<>();
@@ -92,6 +97,63 @@ public class DBReader {
                 me.latitude, me.longitude, me.id);
 
         return threadExec(surl);
+    }
+
+    private final static char[] HEX_ARR = "0123456789ABCDEF".toCharArray();
+
+    private String encodeHexString(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARR[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARR[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
+    public boolean verifyLogin(String username, String password) {
+        String surl = "";
+
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+            String eUsername = encodeHexString(md5.digest(username.getBytes())).toLowerCase();
+            String ePassword = encodeHexString(sha1.digest(password.getBytes())).toLowerCase();
+
+            surl = HOST + String.format("verifylogin?username=%s&pword=%s",
+                    eUsername, ePassword);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        List<Details> list = threadExec(surl);
+        if(list.isEmpty()) {
+            return false;
+        }
+        Session.setMyDetails(list.get(0));
+        return true;
+    }
+
+    public boolean newAccount(String username, String password, String name) {
+        String surl = "";
+
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            MessageDigest sha1 = MessageDigest.getInstance("SHA1");
+            String eUsername = encodeHexString(md5.digest(username.getBytes())).toLowerCase();
+            String ePassword = encodeHexString(sha1.digest(password.getBytes())).toLowerCase();
+
+            surl = HOST + String.format("verifylogin?username=%s&pword=%s&name=%s",
+                    eUsername, ePassword, name);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        List<Details> list = threadExec(surl);
+        if(list.isEmpty()) {
+            return false;
+        }
+        Session.setMyDetails(list.get(0));
+        return true;
     }
 
     private List<Details> threadExec(String surl) {
