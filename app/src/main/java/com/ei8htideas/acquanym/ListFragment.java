@@ -28,7 +28,7 @@ public class ListFragment extends Fragment {
             R.drawable.download
     };*/
 
-    @Override
+    /*@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_list_fragment);
@@ -41,7 +41,7 @@ public class ListFragment extends Fragment {
                 Toast.makeText(ListFragment.this, "You Clicked at " +name[+ position], Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
     /**
     @Nullable

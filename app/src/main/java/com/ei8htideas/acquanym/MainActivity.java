@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Session.setMyDetails(new Details());
+        Session.setMyDetails(new Details(1, "Joe Bloggs", -50.0, 100.00001, 0, "Person"));
         Session.setMain(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

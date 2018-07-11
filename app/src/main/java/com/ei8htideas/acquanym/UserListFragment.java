@@ -48,7 +48,7 @@ public class UserListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_fragment, container, false);
-        UserListAdapter listAdapter = new UserListAdapter(Session.getMain(), name, job);
+        /*UserListAdapter listAdapter = new UserListAdapter(Session.getMain(), name, job);
         list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(listAdapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,7 +58,7 @@ public class UserListFragment extends Fragment {
                 ft.replace(R.id.content_frame, new MapFragment()); // this needs to be the profile fragment - Adrian
                 ft.commit();
             }
-        });
+        });*/
         return view;
     }
 

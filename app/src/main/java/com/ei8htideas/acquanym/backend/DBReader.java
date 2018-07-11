@@ -17,7 +17,7 @@ public class DBReader {
 
     private final static String HOST = "https://acquanym.herokuapp.com/";
 
-    private static List<Details> readDB(String surl) {
+    private List<Details> readDB(String surl) {
         try {
             URL url = new URL(surl.replace(" ", "%20"));
             URLConnection request = url.openConnection();
@@ -30,7 +30,6 @@ public class DBReader {
                 s += String.valueOf((char)i);
             }
 
-            System.out.println(s);
             List<Map<Object, Object>> result = (List<Map<Object, Object>>)new JSONParser(s).parse();
             List<Details> detailList = new ArrayList<>();
             for(Map<Object, Object> map : result) {
@@ -51,37 +50,44 @@ public class DBReader {
         return null;
     }
 
-    public static List<Details> searchAllAcqs(Details me, String order) {
+    public List<Details> searchAllAcqs(Details me, String order) {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
         return readDB(surl);
     }
 
-    public static List<Details> searchAcqs(Details me, String order, String search) {
+    public List<Details> searchAcqs(Details me, String order, String search) {
         String surl = HOST + String.format("searchacqs?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
         return readDB(surl);
     }
 
-    public static List<Details> searchAllUsers(Details me, String order) {
+    public List<Details> searchAllUsers(Details me, String order) {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
         return readDB(surl);
     }
 
-    public static List<Details> searchUsers(Details me, String order, String search) {
+    public List<Details> searchUsers(Details me, String order, String search) {
         String surl = HOST + String.format("searchusers?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
         return readDB(surl);
     }
 
-    public static List<Details> getNearby(Details me, double range) {
-        String surl = HOST + String.format("nearby?lat=%f&long=%f&range=%f",
-                me.latitude, me.longitude, range);
+    public List<Details> getNearby(Details me, double range) {
+        String surl = HOST + String.format("nearbyacqs?lat=%f&long=%f&range=%f&id=%d",
+                me.latitude, me.longitude, range, me.id);
+
+        return readDB(surl);
+    }
+
+    public List<Details> getAcqRequests(Details me) {
+        String surl = HOST + String.format("confirmacq?lat=%f&long=%f&id=%d",
+                me.latitude, me.longitude, me.id);
 
         return readDB(surl);
     }
