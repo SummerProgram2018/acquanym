@@ -3,6 +3,8 @@ package com.ei8htideas.acquanym.backend;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ public class DBReader {
 
     private final static String HOST = "https://acquanym.herokuapp.com/";
 
-    private static List<Details> readDB(String surl) {
+    private List<Details> readDB(String surl) {
         try {
             URL url = new URL(surl.replace(" ", "%20"));
             URLConnection request = url.openConnection();
@@ -30,7 +32,6 @@ public class DBReader {
                 s += String.valueOf((char)i);
             }
 
-            System.out.println(s);
             List<Map<Object, Object>> result = (List<Map<Object, Object>>)new JSONParser(s).parse();
             List<Details> detailList = new ArrayList<>();
             for(Map<Object, Object> map : result) {
@@ -51,82 +52,66 @@ public class DBReader {
         return null;
     }
 
-    public static List<Details> searchAllAcqs(Details me, String order) {
+    public List<Details> searchAllAcqs(Details me, String order) {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        ArrayList<Details> help = new ArrayList<Details>();
-
-        Details yes = new Details();
-        yes.id = 1;
-        yes.username = "yo";
-        yes.name="Heck";
-        yes.job = "student";
-        yes.latitude=100.10;
-        yes.longitude=100;
-        yes.distance=20;
-        help.add(yes);
-
-        Details no = new Details();
-        no.id = 2;
-        no.username = "nsdo";
-        no.name="Yeah";
-        no.job = "studentz";
-        no.latitude=109;
-        no.longitude=-27;
-        no.distance=150;
-        help.add(no);
-
-        return help; //readDB(surl);
+        return threadExec(surl);
     }
 
-    public static List<Details> searchAcqs(Details me, String order, String search) {
+    public List<Details> searchAcqs(Details me, String order, String search) {
         String surl = HOST + String.format("searchacqs?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
-        return readDB(surl);
+        return threadExec(surl);
     }
 
-    public static List<Details> searchAllUsers(Details me, String order) {
+    public List<Details> searchAllUsers(Details me, String order) {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        ArrayList<Details> help = new ArrayList<Details>();
-
-        Details yes = new Details();
-        yes.id = 1;
-        yes.username = "yo";
-        yes.name="yes";
-        yes.job = "student";
-        yes.latitude=100.10;
-        yes.longitude=100;
-        yes.distance=20;
-        help.add(yes);
-
-        Details no = new Details();
-        no.id = 2;
-        no.username = "nsdo";
-        no.name="no";
-        no.job = "studentz";
-        no.latitude=109;
-        no.longitude=-27;
-        no.distance=150;
-        help.add(no);
-
-        return help; //readDB(surl);
+        return threadExec(surl);
     }
 
-    public static List<Details> searchUsers(Details me, String order, String search) {
+    public List<Details> searchUsers(Details me, String order, String search) {
         String surl = HOST + String.format("searchusers?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
-        return readDB(surl);
+        return threadExec(surl);
     }
 
-    public static List<Details> getNearby(Details me, double range) {
-        String surl = HOST + String.format("nearby?lat=%f&long=%f&range=%f",
-                me.latitude, me.longitude, range);
+    public List<Details> getNearby(Details me, double range) {
+        String surl = HOST + String.format("nearbyacqs?lat=%f&long=%f&range=%f&id=%d",
+                me.latitude, me.longitude, range, me.id);
 
-        return readDB(surl);
+        return threadExec(surl);
+    }
+
+    public List<Details> getAcqRequests(Details me) {
+        String surl = HOST + String.format("confirmacq?lat=%f&long=%f&id=%d",
+                me.latitude, me.longitude, me.id);
+
+        return threadExec(surl);
+    }
+
+    private List<Details> threadExec(String surl) {
+        DBReaderThread t = new DBReaderThread();
+        t.surl = surl;
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return t.result;
+    }
+
+    private class DBReaderThread extends Thread {
+        public List<Details> result;
+        public String surl;
+
+        public void run() {
+            result = readDB(surl);
+        }
     }
 }

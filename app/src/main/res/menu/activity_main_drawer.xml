@@ -27,6 +27,10 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Account info" />
             <item
+                android:id="@+id/reqs"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Acquaintance requests" />
+            <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Logout" />

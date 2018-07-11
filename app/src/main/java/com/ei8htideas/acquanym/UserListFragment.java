@@ -69,8 +69,7 @@ public class UserListFragment extends Fragment {
 
 
     private void populatePeopleList() {
-        people = new ArrayList<Details>();
-        people = (ArrayList) DBReader.searchAllUsers(Session.getMyDetails(), "name"); // fix this
+        people = new DBReader().searchAllUsers(Session.getMyDetails(), "name"); // fix this
 
         mAllData.addAll(people);
         lv = (ListView)rootView.findViewById(R.id.list);

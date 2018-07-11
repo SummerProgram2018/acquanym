@@ -3,14 +3,11 @@ package com.ei8htideas.acquanym;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,10 +22,10 @@ import java.util.Locale;
 
 
 /**
- * Created by Frances on 09/07/2018.
+ * Created by Henry on 09/07/2018.
  */
 
-public class AcqListFragment extends Fragment {
+public class AcqReqsFragment extends Fragment {
 
     private View rootView;
     private ArrayAdapter<Details> adapter;
@@ -38,7 +35,7 @@ public class AcqListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.acq_list_fragment, container, false);
+        rootView = inflater.inflate(R.layout.acq_reqs_fragment, container, false);
         populatePeopleList();
         doSearch();
         return rootView;
@@ -67,24 +64,12 @@ public class AcqListFragment extends Fragment {
 
 
     private void populatePeopleList() {
-        people = new DBReader().searchAllAcqs(Session.getMyDetails(), "name"); // fix this
+        people = new DBReader().getAcqRequests(Session.getMyDetails()); // fix this
 
         mAllData.addAll(people);
         lv = (ListView)rootView.findViewById(R.id.list);
         adapter = new UserListAdapter(getActivity().getApplicationContext(), R.layout.list_item, people);
         lv.setAdapter(adapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = new ProfileFragment();
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
     }
 
 
