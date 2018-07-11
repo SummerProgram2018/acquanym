@@ -20,6 +20,8 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.ei8htideas.acquanym.MainActivity;
+import com.ei8htideas.acquanym.backend.DBReader;
+import com.ei8htideas.acquanym.backend.DBWriter;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,32 +29,36 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.List;
+
 /**
  * Created by Henry on 6/07/2018.
  */
 
 public class Subprocess extends Service {
 
-    private MainActivity main = Session.getMain();
-    private Details me = Session.getMyDetails();
+    private MainActivity main;
+    private Details me;
 
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         public void run() {
             setLastLoc();
+            nearbyNotification();
             handler.postDelayed(runnable, SERVICE_DELAY);
         }
     };
 
     private FusedLocationProviderClient client;
     private Location lastLoc;
-    private static final int SERVICE_DELAY = 1000*10*1;
+    private static final int SERVICE_DELAY = 1000*30*1;
     private static final int MIN_DIST = 0;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        setLastLoc();
-        handler.postDelayed(runnable, SERVICE_DELAY);
+        main = Session.getMain();
+        me = Session.getMyDetails();
+        handler.postDelayed(runnable, 0);
         return START_STICKY;
     }
 
@@ -62,6 +68,7 @@ public class Subprocess extends Service {
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
+            Log.e("Location", "No perms");
             return;
         }
         client.getLastLocation()
@@ -74,16 +81,46 @@ public class Subprocess extends Service {
                             me.latitude = location.getLatitude();
                             me.longitude = location.getLongitude();
                             lastLoc = location;
+                            new LocationWriter().start();
+                            Log.d("Location", "Location written to DB: " + me.latitude + ", " + me.longitude);
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
+                        Log.d("Location", "Error trying to get last GPS location");
                         e.printStackTrace();
                     }
                 });
+    }
+
+    private void nearbyNotification() {
+        NearbyReader r = new NearbyReader();
+        r.range = 0.5;
+        r.start();
+        try {
+            r.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<Details> nearby = r.nearby;
+        Log.i("Nearby", nearby.toString());
+        if(nearby.isEmpty()) {
+            return;
+        }
+        Details closest = null;
+        for(Details details : nearby) {
+            if(!Session.userChecked(details)) {
+                closest = details;
+                break;
+            }
+        }
+        if(closest == null) {
+            return;
+        }
+        Log.i("Nearby", String.format("%s is %f metres away", closest.name, closest.distance*1000));
+        Session.addCheckedUser(closest);
     }
 
     @Override
@@ -96,5 +133,20 @@ public class Subprocess extends Service {
         double a = 0.5 - Math.cos((lat2 - lat1) * p)/2 + Math.cos(lat1 * p) * Math.cos(lat2 * p) *
                 (1 - Math.cos((long2 - long1) * p)) / 2;
         return 12742 * Math.asin(Math.sqrt(a));
+    }
+
+    private class LocationWriter extends Thread {
+        public void run() {
+            new DBWriter().writeLocation(me);
+        }
+    }
+
+    private class NearbyReader extends Thread {
+        public double range;
+        public List<Details> nearby;
+
+        public void run() {
+            nearby = new DBReader().getNearby(me, range);
+        }
     }
 }

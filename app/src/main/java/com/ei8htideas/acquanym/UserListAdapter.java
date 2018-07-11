@@ -1,45 +1,52 @@
 package com.ei8htideas.acquanym;
 
-
-import android.app.Activity;
-import android.database.DataSetObserver;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
 import android.content.Context;
 import android.widget.TextView;
+
+import com.ei8htideas.acquanym.backend.Details;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Frances on 09/07/2018.
  */
 
-public class UserListAdapter extends ArrayAdapter {
+public class UserListAdapter extends ArrayAdapter<Details> {
 
-    private final Activity context;
-    private final String[] name;
-    private final String[] job;
-    //private final Integer[] imageId;
+    private ArrayList<Details> arraylist;
 
-    public UserListAdapter(Activity context, String[] name, String[] job) {
-        super(context, R.layout.user_list_fragment, name); // wtf
-        this.context = context;
-        this.name = name;
-        this.job = job;
+    public UserListAdapter(Context context, int layoutId, List<Details> items) {
+        super(context, layoutId, items);
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.user_list_fragment, null, true);
-        TextView txtName = (TextView) rowView.findViewById(R.id.Name);
-        TextView txtJob = (TextView) rowView.findViewById(R.id.Job);
-        //ImageView img = (ImageView) rowView.findViewById(R.id.Image);
-        txtName.setText(name[position]);
-        txtJob.setText(job[position]);
-        //imageView.setImageResource(imageId[position]);
-        return rowView;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View arrayView = convertView;
+        if(arrayView == null){
+            LayoutInflater vi;
+            vi = LayoutInflater.from(getContext());
+            arrayView = vi.inflate(R.layout.list_item, parent, false);
+        }
+
+        Details currentPosition = getItem(position);
+        if(currentPosition != null){
+            ImageView image = (ImageView)arrayView.findViewById(R.id.Image);
+            //image.setImageResource(currentPosition.getImage());
+
+            TextView name = (TextView)arrayView.findViewById(R.id.Name);
+            name.setText(currentPosition.name);
+
+            TextView job = (TextView)arrayView.findViewById(R.id.Job);
+            job.setText(currentPosition.job);
+        }
+        return arrayView;
     }
+
+
 }
