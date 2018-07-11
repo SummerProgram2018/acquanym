@@ -27,23 +27,6 @@ public class UserListFragment extends Fragment {
     String[] job = {"Hey", "There", "How", "You", "Doing", "?", "more",
                         "more", "more", "more", "more", "more", "more", "more"};
 
-    /**
-     @Override
-     public void onCreate(Bundle savedInstanceState) {
-     super.onCreate(savedInstanceState);
-     setContentView(R.layout.user_list_fragment);
-     UserListAdapter listAdapter = new UserListAdapter(Session.getMain(), name, job);
-     list=(ListView)findViewById(R.id.list);
-     list.setAdapter(listAdapter);
-     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-     @Override
-     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-     Toast.makeText(Session.getMain(), "You Clicked at " +name[+ position], Toast.LENGTH_SHORT).show();
-     }
-     });
-     }
-     */
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
