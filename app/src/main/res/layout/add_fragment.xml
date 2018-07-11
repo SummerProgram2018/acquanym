@@ -14,15 +14,6 @@
         android:inputType="textMultiLine"
         android:visibility="visible" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="65dp"
-        android:text="Add Acquaintance" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -32,4 +23,13 @@
         android:layout_marginTop="41dp"
         android:text="Notes:"
         android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="85dp"
+        android:text="Add Aquaintance" />
 </RelativeLayout>
