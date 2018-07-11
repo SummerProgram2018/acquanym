@@ -141,14 +141,12 @@ public class AcqListFragment extends Fragment {
             people.addAll(filterResults);
         } else {
             for (Details wp : filterResults) {
-                if (wp.name != null && wp.username != null) { //this should never be null!
-                    if (wp.name.toLowerCase(Locale.getDefault()).contains(charText)
-                            || wp.username.toLowerCase(Locale.getDefault()).contains(charText)) {
-                        people.add(wp);
-                    }
+                if (wp.name != null && wp.name.toLowerCase(Locale.getDefault()).contains(charText)) {
+                    people.add(wp);
+                } if (wp.username != null && wp.username.toLowerCase(Locale.getDefault()).contains(charText)) {
+                    people.add(wp);
                 }
             }
-            // could use DBReader method instead
         }
         adapter.notifyDataSetChanged();
     }
