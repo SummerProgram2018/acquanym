@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Henry on 4/07/2018.
+ * Created by Adrian on 9/07/2018.
  */
 
-public class MyFragment extends Fragment {
+public class AddFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -24,6 +24,6 @@ public class MyFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("My Acquaintances");
+        getActivity().setTitle("Search");
     }
 }

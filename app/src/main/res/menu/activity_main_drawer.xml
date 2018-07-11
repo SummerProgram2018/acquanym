@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="My acquaintances" />
         <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Acquaintance Map" />
+        <item
             android:id="@+id/nav_users"
             android:icon="@drawable/ic_menu_camera"
             android:title="Search users" />

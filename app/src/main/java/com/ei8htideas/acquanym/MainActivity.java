@@ -1,6 +1,7 @@
 package com.ei8htideas.acquanym;
 
 import android.Manifest;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,13 +23,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.CheckBox;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.background.Subprocess;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +65,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override
@@ -103,6 +109,12 @@ public class MainActivity extends AppCompatActivity
                 fragment = new UserListFragment();
                 break;
             case R.id.nav_acq:
+                fragment = new AcqListFragment();
+                break;
+            case R.id.nav_account:
+                fragment = new ProfileFragment();
+                break;
+            case R.id.nav_map:
                 fragment = new MapFragment();
                 break;
         }
@@ -131,4 +143,34 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getBaseContext(), Subprocess.class);
         startService(intent);
     }
+
+    public void onCheckboxClicked(View view) {
+        CheckBox chk1 = (CheckBox) findViewById(R.id.checkBox_100);
+        CheckBox chk2 = (CheckBox) findViewById(R.id.checkBox_200);
+        CheckBox chk3 = (CheckBox) findViewById(R.id.checkBox_500);
+
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.checkBox_100:
+                if(checked) {
+                    chk2.setChecked(false);
+                    chk3.setChecked(false);
+                }
+                break;
+            case R.id.checkBox_200:
+                if(checked) {
+                    chk1.setChecked(false);
+                    chk3.setChecked(false);
+                }
+                break;
+            case R.id.checkBox_500:
+                if(checked) {
+                    chk1.setChecked(false);
+                    chk2.setChecked(false);
+                }
+                break;
+        }
+    }
+
 }
