@@ -27,7 +27,7 @@
         android:layout_marginTop="30dp"
         android:text="Age: 26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
         android:id="@+id/gender"
@@ -38,7 +38,7 @@
         android:layout_marginTop="30dp"
         android:text="Gender: Male"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/age" />
 
     <TextView
         android:id="@+id/job"
@@ -49,7 +49,7 @@
         android:layout_marginTop="30dp"
         android:text="Occupation: Unemployed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/gender" />
 
     <TextView
         android:id="@+id/description"
@@ -60,7 +60,7 @@
         android:layout_marginTop="30dp"
         android:text="Description: Insert Description Here."
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/job" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -86,6 +86,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
 </android.support.constraint.ConstraintLayout>

@@ -37,16 +37,16 @@ public class ProfileFragment extends Fragment {
             name.setText(mPerson.name);
 
             TextView age = (TextView) rootView.findViewById(R.id.age);
-            name.setText(mPerson.age);
+            age.setText("Age: " + mPerson.age);
 
             TextView gender = (TextView) rootView.findViewById(R.id.gender);
-            name.setText(mPerson.gender);
+            gender.setText("Gender: " + mPerson.gender);
 
             TextView job = (TextView) rootView.findViewById(R.id.job);
-            name.setText(mPerson.title);
+            job.setText("Occupation: " + mPerson.title);
 
             TextView description = (TextView) rootView.findViewById(R.id.description);
-            name.setText(mPerson.description);
+            description.setText("Description: " + mPerson.description);
 
         }
 
