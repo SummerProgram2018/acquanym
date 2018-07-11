@@ -15,9 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+
 import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
+import com.ei8htideas.acquanym.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,13 +81,13 @@ public class UserListFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = new ProfileFragment();
+                ProfileFragment fragment = new ProfileFragment();
+                fragment.passData(people.get(position));
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                //Toast.makeText(Session.getMain(), "You Clicked at " +name[+ position], Toast.LENGTH_SHORT).show();
             }
         });
     }
