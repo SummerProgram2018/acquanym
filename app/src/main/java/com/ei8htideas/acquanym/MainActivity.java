@@ -145,33 +145,4 @@ public class MainActivity extends AppCompatActivity
         startService(intent);
     }
 
-    public void onCheckboxClicked(View view) {
-        CheckBox chk1 = (CheckBox) findViewById(R.id.checkBox_100);
-        CheckBox chk2 = (CheckBox) findViewById(R.id.checkBox_200);
-        CheckBox chk3 = (CheckBox) findViewById(R.id.checkBox_500);
-
-        boolean checked = ((CheckBox) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.checkBox_100:
-                if(checked) {
-                    chk2.setChecked(false);
-                    chk3.setChecked(false);
-                }
-                break;
-            case R.id.checkBox_200:
-                if(checked) {
-                    chk1.setChecked(false);
-                    chk3.setChecked(false);
-                }
-                break;
-            case R.id.checkBox_500:
-                if(checked) {
-                    chk1.setChecked(false);
-                    chk2.setChecked(false);
-                }
-                break;
-        }
-    }
-
 }
