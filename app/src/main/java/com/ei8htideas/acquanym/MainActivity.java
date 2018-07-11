@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Session.setMyDetails(new Details(1, "Joe Bloggs", -50.0, 100.00001, 0, "Person"));
+        Session.setMyDetails(new Details(1, "Joe Bloggs", -50.0, 100.00001, 0, "Person",
+                                "joetheman", 10, "Male", "Just a cool dude"));
         Session.setMain(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -142,35 +143,6 @@ public class MainActivity extends AppCompatActivity
     public void startService(View view) {
         Intent intent = new Intent(getBaseContext(), Subprocess.class);
         startService(intent);
-    }
-
-    public void onCheckboxClicked(View view) {
-        CheckBox chk1 = (CheckBox) findViewById(R.id.checkBox_100);
-        CheckBox chk2 = (CheckBox) findViewById(R.id.checkBox_200);
-        CheckBox chk3 = (CheckBox) findViewById(R.id.checkBox_500);
-
-        boolean checked = ((CheckBox) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.checkBox_100:
-                if(checked) {
-                    chk2.setChecked(false);
-                    chk3.setChecked(false);
-                }
-                break;
-            case R.id.checkBox_200:
-                if(checked) {
-                    chk1.setChecked(false);
-                    chk3.setChecked(false);
-                }
-                break;
-            case R.id.checkBox_500:
-                if(checked) {
-                    chk1.setChecked(false);
-                    chk2.setChecked(false);
-                }
-                break;
-        }
     }
 
 }
