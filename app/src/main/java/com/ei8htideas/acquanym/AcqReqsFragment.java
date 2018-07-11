@@ -22,10 +22,10 @@ import java.util.Locale;
 
 
 /**
- * Created by Frances on 09/07/2018.
+ * Created by Henry on 09/07/2018.
  */
 
-public class AcqListFragment extends Fragment {
+public class AcqReqsFragment extends Fragment {
 
     private View rootView;
     private ArrayAdapter<Details> adapter;
@@ -35,7 +35,7 @@ public class AcqListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.acq_list_fragment, container, false);
+        rootView = inflater.inflate(R.layout.acq_reqs_fragment, container, false);
         populatePeopleList();
         doSearch();
         return rootView;
@@ -64,7 +64,7 @@ public class AcqListFragment extends Fragment {
 
 
     private void populatePeopleList() {
-        people = new DBReader().searchAllAcqs(Session.getMyDetails(), "name"); // fix this
+        people = new DBReader().getAcqRequests(Session.getMyDetails()); // fix this
 
         mAllData.addAll(people);
         lv = (ListView)rootView.findViewById(R.id.list);
