@@ -4,35 +4,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_acq"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="My acquaintances" />
+            android:icon="@drawable/ic_action_name"
+            android:title="My Acquaintances" />
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_map"
             android:title="Acquaintance Map" />
         <item
             android:id="@+id/nav_users"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Search users" />
+            android:icon="@drawable/ic_search"
+            android:title="Search Users" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_settings"
             android:title="Settings" />
     </group>
 
-    <item android:title="My account">
+    <item android:title="My Account">
         <menu>
             <item
                 android:id="@+id/nav_account"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Account info" />
+                android:icon="@drawable/ic_profile"
+                android:title="Profile" />
             <item
-                android:id="@+id/reqs"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Acquaintance requests" />
+                android:id="@+id/nav_reqs"
+                android:icon="@drawable/ic_add"
+                android:title="Acquaintance Requests" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_logout"
                 android:title="Logout" />
         </menu>
     </item>
