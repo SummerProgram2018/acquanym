@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        displaySelectedScreen(R.id.nav_acq);
     }
 
     @Override
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity
     private void displaySelectedScreen(int itemId) {
         //creating fragment object
         Fragment fragment = null;
+        ProfileFragment pFragment = null;
 
         //initializing the fragment object which is selected
         switch (itemId) {
@@ -113,7 +116,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = new AcqListFragment();
                 break;
             case R.id.nav_account:
-                fragment = new ProfileFragment();
+                pFragment = new ProfileFragment();
+                pFragment.passData(Session.getMyDetails());
                 break;
             case R.id.nav_map:
                 fragment = new MapFragment();
@@ -127,8 +131,13 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
+        if (itemId == R.id.nav_account && pFragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, pFragment);
+            ft.commit();
+        }
         //replacing the fragment
-        if (fragment != null) {
+        else if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
             ft.commit();

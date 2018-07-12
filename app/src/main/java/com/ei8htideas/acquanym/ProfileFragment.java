@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ei8htideas.acquanym.backend.Details;
+import com.ei8htideas.acquanym.backend.Session;
 
 /**
  * Created by Adrian on 5/07/2018.
@@ -48,6 +50,9 @@ public class ProfileFragment extends Fragment {
             TextView description = (TextView) rootView.findViewById(R.id.description);
             description.setText("Description: " + mPerson.description);
 
+            ImageView image = (ImageView) rootView.findViewById(R.id.image);
+            image.setImageResource(R.drawable.joe);
+
         }
 
         return rootView;
@@ -58,6 +63,11 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("My Account");
+        if (mPerson.equals(Session.getMyDetails())) {
+            getActivity().setTitle("My Account");
+        } else {
+            getActivity().setTitle("Get to know");
+        }
+
     }
 }
