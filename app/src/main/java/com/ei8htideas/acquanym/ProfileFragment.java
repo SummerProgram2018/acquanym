@@ -1,12 +1,17 @@
 package com.ei8htideas.acquanym;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ei8htideas.acquanym.backend.Details;
@@ -31,6 +36,19 @@ public class ProfileFragment extends Fragment {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         rootView = inflater.inflate(R.layout.profile_fragment, container, false);
+        Button button = (Button) rootView.findViewById(R.id.add_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new AddFragment();
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    ft.replace(R.id.content_frame, fragment);
+                    ft.commit();
+                }
+            }
+        });
 
         if (mPerson != null) {
             TextView name = (TextView) rootView.findViewById(R.id.name);
@@ -52,7 +70,6 @@ public class ProfileFragment extends Fragment {
 
         return rootView;
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

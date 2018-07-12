@@ -32,7 +32,6 @@ import java.util.Locale;
  */
 
 public class UserListFragment extends Fragment {
-
     private View rootView;
     private ArrayAdapter<Details> adapter;
     private List<Details> people;
