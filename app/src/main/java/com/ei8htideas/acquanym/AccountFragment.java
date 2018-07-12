@@ -7,23 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ei8htideas.acquanym.R;
+
 /**
- * Created by Adrian on 9/07/2018.
+ * Created by Adrian on 5/07/2018.
  */
 
-public class AddFragment extends Fragment {
+public class AccountFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.add_fragment, container, false);
+        return inflater.inflate(R.layout.account_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Add Acquaintance");
+        getActivity().setTitle("My Account");
     }
 }
