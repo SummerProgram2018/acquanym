@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.location.gps" />
@@ -14,12 +15,25 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+
         android:allowBackup="true"
         android:icon="@drawable/eightideaslogo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/eightideaslogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCTML5e1iLIi0LN23AgAgJDEbPC5b5hXpo" />
@@ -29,13 +43,38 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
 
-        <service android:name=".background.Subprocess" />
+
+
+        <!--
+       <meta-data
+           android:name="com.google.android.maps.v2.API_KEY"
+           android:value="AIzaSyCTML5e1iLIi0LN23AgAgJDEbPC5b5hXpo" />
+       <activity
+           android:name=".sign_in"
+           android:label="@string/title_activity_main"
+           android:theme="@style/AppTheme.NoActionBar">
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
+       </activity>
+       -->
+
+
+       <service android:name=".background.Subprocess" />
+
+
+
 
         <activity
             android:name=".MainActivity"
@@ -44,5 +83,6 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"></activity>
     </application>
+
 
 </manifest>

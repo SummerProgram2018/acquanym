@@ -4,6 +4,10 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    //Facebook app Id and login name ID
+    <string name="facebook_app_id">208544263312855</string>
+    <string name="fb_login_protocol_scheme">fb208544263312855</string>
+
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_search">SearchActivity</string>
