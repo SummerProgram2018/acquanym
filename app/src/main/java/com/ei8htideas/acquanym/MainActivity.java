@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        displaySelectedScreen(R.id.nav_acq);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new AcqListFragment();
                 break;
             case R.id.nav_account:
-                fragment = new ProfileFragment();
+                fragment = new AccountFragment();
                 break;
             case R.id.nav_map:
                 fragment = new MapFragment();
