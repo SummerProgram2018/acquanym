@@ -91,6 +91,13 @@ public class UserListFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //you can set the title for your toolbar here for different fragments different titles
+        getActivity().setTitle("Search Users");
+    }
+
     private void doSearch() {
         final EditText et = (EditText)rootView.findViewById(R.id.search);
         et.addTextChangedListener(new TextWatcher() {
