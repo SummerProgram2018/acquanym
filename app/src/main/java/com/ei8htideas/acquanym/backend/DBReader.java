@@ -66,7 +66,20 @@ public class DBReader {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        return threadExec(surl);
+
+        Details tester = new Details(1, "me",  100, 100, 10, "student", "me", 19,  "Female", "a cool girl");
+        Details tester2 = new Details(2, "me2",  100, 100, 110, "student", "me", 19,  "Female", "a cool girl");
+        Details tester3 = new Details(3, "me3",  100, 100, 410, "student", "me", 19,  "Female", "a cool girl");
+        Details tester4 = new Details(4, "me4",  100, 100, 510, "student", "me", 19,  "Female", "a cool girl");
+        List<Details> test = new ArrayList<>();
+        test.add(tester);
+        test.add(tester2);
+        test.add(tester3);
+        test.add(tester4);
+
+
+
+        return test; //threadExec(surl);
     }
 
     public static List<Details> searchAcqs(Details me, String order, String search) {
@@ -80,7 +93,18 @@ public class DBReader {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        return threadExec(surl);
+
+        Details tester = new Details(1, "me",  100, 100, 10, "student", "me", 19,  "Female", "a cool girl");
+        Details tester2 = new Details(2, "me2",  100, 100, 110, "student", "me", 19,  "Female", "a cool girl");
+        Details tester3 = new Details(3, "me3",  100, 100, 410, "student", "me", 19,  "Female", "a cool girl");
+        Details tester4 = new Details(4, "me4",  100, 100, 510, "student", "me", 19,  "Female", "a cool girl");
+        List<Details> test = new ArrayList<>();
+        test.add(tester);
+        test.add(tester2);
+        test.add(tester3);
+        test.add(tester4);
+
+        return test; //threadExec(surl);
     }
 
     public static List<Details> searchUsers(Details me, String order, String search) {

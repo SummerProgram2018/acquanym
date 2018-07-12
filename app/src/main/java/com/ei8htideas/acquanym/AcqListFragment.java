@@ -129,7 +129,7 @@ public class AcqListFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProfileFragment fragment = new ProfileFragment();
+                AcqProfileFragment fragment = new AcqProfileFragment();
                 fragment.passData(people.get(position));
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity
     private void displaySelectedScreen(int itemId) {
         //creating fragment object
         Fragment fragment = null;
-        ProfileFragment pFragment = null;
 
         //initializing the fragment object which is selected
         switch (itemId) {
@@ -116,8 +115,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new AcqListFragment();
                 break;
             case R.id.nav_account:
-                pFragment = new ProfileFragment();
-                pFragment.passData(Session.getMyDetails());
+                fragment = new AccountFragment();
                 break;
             case R.id.nav_map:
                 fragment = new MapFragment();
@@ -131,13 +129,8 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        if (itemId == R.id.nav_account && pFragment != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, pFragment);
-            ft.commit();
-        }
         //replacing the fragment
-        else if (fragment != null) {
+        if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment);
             ft.commit();
