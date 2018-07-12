@@ -1,5 +1,10 @@
 package com.ei8htideas.acquanym.backend;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.ei8htideas.acquanym.LoginActivity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,7 +27,7 @@ public class DBReader {
 
     private final static String HOST = "https://acquanym.herokuapp.com/";
 
-    private List<Details> readDB(String surl) {
+    private static List<Details> readDB(String surl) {
         try {
             URL url = new URL(surl.replace(" ", "%20"));
             URLConnection request = url.openConnection();
@@ -35,7 +40,7 @@ public class DBReader {
                 s += String.valueOf((char)i);
             }
 
-            System.out.println(s);
+            Log.i("Reader", s);
 
             List<Map<Object, Object>> result = (List<Map<Object, Object>>)new JSONParser(s).parse();
             List<Details> detailList = new ArrayList<>();
@@ -43,9 +48,9 @@ public class DBReader {
                 Details details = new Details();
                 details.id = ((Double)map.get("id")).intValue();
                 details.name = (String)map.get("name");
-                details.latitude = (double)map.get("latitude");
-                details.longitude = (double)map.get("longitude");
-                details.distance = (double)map.get("distance");
+                details.latitude = (Double)map.get("latitude");
+                details.longitude = (Double)map.get("longitude");
+                details.distance = (Double)map.get("distance");
                 detailList.add(details);
             }
             return detailList;
@@ -57,42 +62,42 @@ public class DBReader {
         return null;
     }
 
-    public List<Details> searchAllAcqs(Details me, String order) {
+    public static List<Details> searchAllAcqs(Details me, String order) {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
         return threadExec(surl);
     }
 
-    public List<Details> searchAcqs(Details me, String order, String search) {
+    public static List<Details> searchAcqs(Details me, String order, String search) {
         String surl = HOST + String.format("searchacqs?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
         return threadExec(surl);
     }
 
-    public List<Details> searchAllUsers(Details me, String order) {
+    public static List<Details> searchAllUsers(Details me, String order) {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
         return threadExec(surl);
     }
 
-    public List<Details> searchUsers(Details me, String order, String search) {
+    public static List<Details> searchUsers(Details me, String order, String search) {
         String surl = HOST + String.format("searchusers?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
         return threadExec(surl);
     }
 
-    public List<Details> getNearby(Details me, double range) {
+    public static List<Details> getNearby(Details me, double range) {
         String surl = HOST + String.format("nearbyacqs?lat=%f&long=%f&range=%f&id=%d",
                 me.latitude, me.longitude, range, me.id);
 
         return threadExec(surl);
     }
 
-    public List<Details> getAcqRequests(Details me) {
+    public static List<Details> getAcqRequests(Details me) {
         String surl = HOST + String.format("confirmacq?lat=%f&long=%f&id=%d",
                 me.latitude, me.longitude, me.id);
 
@@ -101,7 +106,7 @@ public class DBReader {
 
     private final static char[] HEX_ARR = "0123456789ABCDEF".toCharArray();
 
-    private String encodeHexString(byte[] bytes) {
+    private static String encodeHexString(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for ( int j = 0; j < bytes.length; j++ ) {
             int v = bytes[j] & 0xFF;
@@ -111,7 +116,7 @@ public class DBReader {
         return new String(hexChars);
     }
 
-    public boolean verifyLogin(String username, String password) {
+    public static boolean verifyLogin(String username, String password) {
         String surl = "";
 
         try {
@@ -133,7 +138,7 @@ public class DBReader {
         return true;
     }
 
-    public boolean newAccount(String username, String password, String name) {
+    public static boolean newAccount(String username, String password, String name) {
         String surl = "";
 
         try {
@@ -142,7 +147,7 @@ public class DBReader {
             String eUsername = encodeHexString(md5.digest(username.getBytes())).toLowerCase();
             String ePassword = encodeHexString(sha1.digest(password.getBytes())).toLowerCase();
 
-            surl = HOST + String.format("verifylogin?username=%s&pword=%s&name=%s",
+            surl = HOST + String.format("newaccount?username=%s&pword=%s&name=%s",
                     eUsername, ePassword, name);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -156,7 +161,7 @@ public class DBReader {
         return true;
     }
 
-    private List<Details> threadExec(String surl) {
+    private static List<Details> threadExec(String surl) {
         DBReaderThread t = new DBReaderThread();
         t.surl = surl;
         t.start();
@@ -168,7 +173,7 @@ public class DBReader {
         return t.result;
     }
 
-    private class DBReaderThread extends Thread {
+    private static class DBReaderThread extends Thread {
         public List<Details> result;
         public String surl;
 

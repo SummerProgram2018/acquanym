@@ -8,12 +8,12 @@ public class Details {
     public int id;
     public String name;
     public String username;
-    public int age;
+    public Integer age;
     public String gender;
     public String title;
-    public double latitude;
-    public double longitude;
-    public double distance;
+    public Double latitude;
+    public Double longitude;
+    public Double distance;
     public String description;
 
     public Details() {}
