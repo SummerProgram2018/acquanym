@@ -118,6 +118,13 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_map:
                 fragment = new MapFragment();
                 break;
+            case R.id.nav_settings:
+                break;
+            case R.id.nav_reqs:
+                fragment = new AcqReqsFragment();
+                break;
+            case R.id.nav_logout:
+                break;
         }
 
         //replacing the fragment
