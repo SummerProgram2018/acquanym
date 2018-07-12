@@ -1,6 +1,7 @@
 package com.ei8htideas.acquanym;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.CheckBox;
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings:
                 break;
             case R.id.nav_reqs:
-                fragment = new AcqReqsFragment();
+                fragment = new TestAcqReqsFragment();
                 break;
             case R.id.nav_logout:
                 break;

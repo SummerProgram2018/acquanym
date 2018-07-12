@@ -36,10 +36,13 @@ public class AcqReqsListAdapter extends ArrayAdapter<Details> {
         if(arrayView == null){
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            arrayView = vi.inflate(R.layout.list_item, parent, false);
+            arrayView = vi.inflate(R.layout.reqs_list_item, parent, false);
         }
 
         final Details currentPosition = getItem(position);
+        ImageButton confirm = (ImageButton) arrayView.findViewById(R.id.confirm);
+        ImageButton delete = (ImageButton) arrayView.findViewById(R.id.delete);
+
         if(currentPosition != null){
             ImageView image = (ImageView)arrayView.findViewById(R.id.Image);
             image.setImageResource(R.drawable.joe);
@@ -49,10 +52,11 @@ public class AcqReqsListAdapter extends ArrayAdapter<Details> {
 
             TextView job = (TextView)arrayView.findViewById(R.id.Job);
             job.setText(currentPosition.title);
+
+            confirm.setImageResource(R.drawable.ic_confirm);
+            delete.setImageResource(R.drawable.ic_delete);
         }
 
-        ImageButton confirm = (ImageButton) arrayView.findViewById(R.id.confirm);
-        ImageButton delete = (ImageButton) arrayView.findViewById(R.id.delete);
         final ViewGroup tempParent = parent;
 
         confirm.setOnClickListener(new View.OnClickListener() {
