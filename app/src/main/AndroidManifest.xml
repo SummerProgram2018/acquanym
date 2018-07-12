@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ei8htideas.acquanym">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
 
         android:allowBackup="true"
@@ -9,9 +21,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
         <activity android:name="com.facebook.FacebookActivity"
@@ -20,9 +32,20 @@
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCTML5e1iLIi0LN23AgAgJDEbPC5b5hXpo" />
+
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="@string/fb_login_protocol_scheme" />
@@ -31,6 +54,7 @@
 
 
 
+        <!--
        <meta-data
            android:name="com.google.android.maps.v2.API_KEY"
            android:value="AIzaSyCTML5e1iLIi0LN23AgAgJDEbPC5b5hXpo" />
@@ -44,11 +68,21 @@
                <category android:name="android.intent.category.LAUNCHER" />
            </intent-filter>
        </activity>
+       -->
+
 
        <service android:name=".background.Subprocess" />
 
-   </application>
-   //Setting user permission for facebook
-   <uses-permission android:name="android.permission.INTERNET"/>
+
+
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"></activity>
+    </application>
+
 
 </manifest>

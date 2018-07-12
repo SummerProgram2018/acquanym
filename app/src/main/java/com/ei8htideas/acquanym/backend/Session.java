@@ -1,5 +1,16 @@
 package com.ei8htideas.acquanym.backend;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import com.ei8htideas.acquanym.MainActivity;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,20 +20,32 @@ import java.util.Set;
  */
 
 public class Session {
-    private Details user;
+    private static Details me;
+    private static Set<Details> checkedUsers = new HashSet<>();
+    private static MainActivity main;
 
-    private Set<Details> checkedUsers;
-
-    public Session(Details user) {
-        this.user = user;
-        checkedUsers = new HashSet<>();
+    public static void setMain(MainActivity main) {
+        Session.main = main;
     }
 
-    public void addCheckedUser(Details user) {
+    public static MainActivity getMain() {
+        return main;
+    }
+
+    public static void setMyDetails(Details user) {
+        me = user;
+    }
+
+    public static Details getMyDetails() {
+        return me;
+    }
+
+    public static void addCheckedUser(Details user) {
         checkedUsers.add(user);
     }
 
-    public boolean userChecked(Details user) {
+    public static boolean userChecked(Details user) {
         return checkedUsers.contains(user);
     }
+
 }

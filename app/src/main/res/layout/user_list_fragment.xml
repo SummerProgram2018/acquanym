@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context=".UserListFragment">
 
 
     <LinearLayout
@@ -10,12 +13,28 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <SearchView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:queryHint="Search by name, username or phone number...">
+            android:layout_height="wrap_content">
 
-        </SearchView>
+
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_menu_search" />
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Search by name or username...">
+
+            </EditText>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,6 +73,7 @@
         </LinearLayout>
 
         <ListView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
