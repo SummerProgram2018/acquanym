@@ -118,6 +118,7 @@ public class AcqListFragment extends Fragment {
 
 
     private void populatePeopleList() {
+        //TODO: db fix
         people = new DBReader().searchAllAcqs(Session.getMyDetails(), "name"); // fix this
         searchResults.addAll(people);
         filterResults.addAll(people);

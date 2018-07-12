@@ -51,6 +51,10 @@ public class DBReader {
                 details.latitude = (Double)map.get("latitude");
                 details.longitude = (Double)map.get("longitude");
                 details.distance = (Double)map.get("distance");
+                details.title = (String)map.get("title");
+                details.age = (Integer)map.get("age");
+                details.gender = (String)map.get("gender");
+                details.description = (String)map.get("description");
                 detailList.add(details);
             }
             return detailList;
@@ -138,7 +142,8 @@ public class DBReader {
         return true;
     }
 
-    public static boolean newAccount(String username, String password, String name) {
+    public static boolean newAccount(String username, String password, String name,
+                                     double latitude, double longitude) {
         String surl = "";
 
         try {
@@ -147,8 +152,8 @@ public class DBReader {
             String eUsername = encodeHexString(md5.digest(username.getBytes())).toLowerCase();
             String ePassword = encodeHexString(sha1.digest(password.getBytes())).toLowerCase();
 
-            surl = HOST + String.format("newaccount?username=%s&pword=%s&name=%s",
-                    eUsername, ePassword, name);
+            surl = HOST + String.format("newaccount?username=%s&pword=%s&name=%s&lat=%f&long=%f",
+                    eUsername, ePassword, name, latitude, longitude);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
