@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.support.v7.app.AppCompatActivity;
+import com.ei8htideas.acquanym.backend.Details;
+import com.ei8htideas.acquanym.background.Subprocess;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -33,6 +37,7 @@ public class sign_in extends AppCompatActivity {
     TextView txtStatus;
     LoginButton login_button;
     CallbackManager callbackManager;
+    private Details userDetail=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +65,7 @@ public class sign_in extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 String email;
                 txtStatus.setText("Login Success");
-
+                startActivity(new Intent(sign_in.this, MainActivity.class));
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -79,6 +84,7 @@ public class sign_in extends AppCompatActivity {
                                     String birthday = object.getString("birthday"); // 01/31/1980 format
                                     String [] array = birthday.split("/", 3);
                                     int age = 2018 - Integer.parseInt(array[2]);
+                                    getUserInfo(userName,age);
                                     txtStatus.setText(" "+ userName + " " + age);
                                 }catch (Exception e){
 
@@ -92,7 +98,7 @@ public class sign_in extends AppCompatActivity {
 
                 request.setParameters(parameters);
                 request.executeAsync();
-                ;
+
             }
 
             @Override
@@ -115,4 +121,13 @@ public class sign_in extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
+    public void getUserInfo(String name, int age){
+        userDetail.name = name;
+
+       // Intent myIntent = new Intent(this, MainActivity.class);
+       // this.startActivity(myIntent);
+        Intent intent = new Intent(getBaseContext(), Subprocess.class);
+        startService(intent);
+    }
+
 }
