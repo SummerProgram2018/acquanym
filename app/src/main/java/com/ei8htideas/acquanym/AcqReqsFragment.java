@@ -57,7 +57,8 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
 
 
     private void populatePeopleList() {
-        people = new DBReader().searchAllAcqs(Session.getMyDetails(), "name"); // fix this - should be people who haven't confirmed?
+        //TODO: db stuff
+        people = new DBReader().searchAllAcqs(Session.getMyDetails(), "name"); // TODO: fix this - should be people who haven't confirmed?
 
         lv = (ListView)rootView.findViewById(R.id.list);
         adapter = new AcqReqsListAdapter(getActivity().getApplicationContext(), R.layout.reqs_list_item, people);

@@ -1,5 +1,6 @@
 package com.ei8htideas.acquanym;
 
+import android.app.ProgressDialog;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.ProfileFragment;
+import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
+import com.ei8htideas.acquanym.backend.backend.search.DBUserSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +42,17 @@ public class UserListFragment extends Fragment {
     ArrayList<Details> searchResults=new ArrayList<Details>();
     ArrayList<Details> filterResults=new ArrayList<Details>();
 
+    private ProgressDialog progress;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
         rootView = inflater.inflate(R.layout.user_list_fragment, container, false);
+
+        progress = new ProgressDialog(this.getContext());
+        progress.setTitle("Searching users");
+        progress.setMessage("Please wait...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
 
         final CheckBox chk100 = (CheckBox)rootView.findViewById(R.id.checkBox_100);
         final CheckBox chk200 = (CheckBox)rootView.findViewById(R.id.checkBox_200);
@@ -117,10 +127,10 @@ public class UserListFragment extends Fragment {
         });
     }
 
+    public void populatePeopleListCallback(List<Details> result) {
+        progress.hide();
 
-
-    private void populatePeopleList() {
-        people = new DBReader().searchAllUsers(Session.getMyDetails(), "name"); // fix this
+        this.people = result;
         searchResults.addAll(people);
         filterResults.addAll(people);
 
@@ -140,6 +150,15 @@ public class UserListFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+    }
+
+    private void populatePeopleList() {
+        DBSearchParams params = new DBSearchParams();
+        params.ul = this;
+        params.me = Session.getMyDetails();
+        params.order = "name";
+        progress.show();
+        new DBUserSearch().execute(params);
     }
 
 

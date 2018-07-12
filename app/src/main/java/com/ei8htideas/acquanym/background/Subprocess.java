@@ -37,7 +37,6 @@ import java.util.List;
 
 public class Subprocess extends Service {
 
-    private MainActivity main;
     private Details me;
 
     private Handler handler = new Handler();
@@ -50,12 +49,10 @@ public class Subprocess extends Service {
 
     private FusedLocationProviderClient client;
     private Location lastLoc;
-    private static final int SERVICE_DELAY = 1000*30*1;
-    private static final int MIN_DIST = 0;
+    private static final int SERVICE_DELAY = 1000*60*2;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        main = Session.getMain();
         me = Session.getMyDetails();
         handler.postDelayed(runnable, 0);
         return START_STICKY;
@@ -68,7 +65,6 @@ public class Subprocess extends Service {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
             Log.e("Location", "No perms");
-            return;
         }
         client.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -80,7 +76,7 @@ public class Subprocess extends Service {
                             me.latitude = location.getLatitude();
                             me.longitude = location.getLongitude();
                             lastLoc = location;
-                            new DBWriter().writeLocation(me);
+                            DBWriter.writeLocation(me);
                             Log.d("Location", "Location written to DB: " + me.latitude + ", " + me.longitude);
                         }
                     }
