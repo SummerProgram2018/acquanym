@@ -2,6 +2,7 @@ package com.ei8htideas.acquanym;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.ei8htideas.acquanym.backend.Details;
 
 /**
  * Created by Adrian on 5/07/2018.
@@ -18,17 +22,25 @@ import android.widget.Button;
 
 public class ProfileFragment extends Fragment {
 
+    //private static final String DESCRIBABLE_KEY = "describable_key";
+    private Details mPerson = null;
+    private View rootView;
+
+    public void passData(Details person) {
+        mPerson = person;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
-        View view = inflater.inflate(R.layout.profile_fragment, container, false);
-        Button button = (Button) view.findViewById(R.id.add_button);
+        rootView = inflater.inflate(R.layout.profile_fragment, container, false);
+        Button button = (Button) rootView.findViewById(R.id.add_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Fragment fragment = new AddFragment();
+                Fragment fragment = new AddFragment();
                 if (fragment != null) {
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -37,7 +49,26 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-        return view;
+
+        if (mPerson != null) {
+            TextView name = (TextView) rootView.findViewById(R.id.name);
+            name.setText(mPerson.name);
+
+            TextView age = (TextView) rootView.findViewById(R.id.age);
+            age.setText("Age: " + mPerson.age);
+
+            TextView gender = (TextView) rootView.findViewById(R.id.gender);
+            gender.setText("Gender: " + mPerson.gender);
+
+            TextView job = (TextView) rootView.findViewById(R.id.job);
+            job.setText("Occupation: " + mPerson.title);
+
+            TextView description = (TextView) rootView.findViewById(R.id.description);
+            description.setText("Description: " + mPerson.description);
+
+        }
+
+        return rootView;
     }
 
     @Override

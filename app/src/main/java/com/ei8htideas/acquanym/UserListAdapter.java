@@ -43,7 +43,7 @@ public class UserListAdapter extends ArrayAdapter<Details> {
             name.setText(currentPosition.name);
 
             TextView job = (TextView)arrayView.findViewById(R.id.Job);
-            job.setText(currentPosition.job);
+            job.setText(currentPosition.title);
         }
         return arrayView;
     }

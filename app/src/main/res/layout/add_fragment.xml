@@ -31,5 +31,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="85dp"
-        android:text="Add Aquaintance" />
+        android:text="Add Acquaintance" />
 </RelativeLayout>

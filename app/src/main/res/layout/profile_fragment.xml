@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/age"
         android:layout_width="114dp"
         android:layout_height="21dp"
         android:layout_marginLeft="30dp"
@@ -27,10 +27,10 @@
         android:layout_marginTop="30dp"
         android:text="Age: 26"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -38,10 +38,10 @@
         android:layout_marginTop="30dp"
         android:text="Gender: Male"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/age" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -49,17 +49,17 @@
         android:layout_marginTop="30dp"
         android:text="Occupation: Unemployed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/gender" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/description"
         android:layout_width="320dp"
         android:layout_height="80dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:text="@string/notes_insert_notes_here"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/job" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -84,6 +84,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
 </android.support.constraint.ConstraintLayout>
