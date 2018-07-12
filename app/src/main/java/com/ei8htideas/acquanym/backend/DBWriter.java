@@ -16,7 +16,7 @@ public class DBWriter {
 
     private final static String HOST = "https://acquanym.herokuapp.com/";
 
-    private void writeDB(String surl) {
+    private static void writeDB(String surl) {
         URL url = null;
         try {
             url = new URL(surl.replace(" ", "%20"));
@@ -28,40 +28,25 @@ public class DBWriter {
         }
     }
 
-    public void writeLocation(Details me) {
+    public static void writeLocation(Details me) {
         Log.i("Write", "writing loc");
         String surl = HOST + String.format("writelatlong?lat=%f&long=%f&id=%d",
                 me.latitude, me.longitude, me.id);
 
-        threadExec(surl);
+        writeDB(surl);
 
     }
 
-    public void requestAcq(Details me, Details them) {
+    public static void requestAcq(Details me, Details them) {
         String surl = HOST + String.format("addacq?id=%d&user=%d", me.id, them.id);
 
-        threadExec(surl);
+        writeDB(surl);
     }
 
-    public void confirmAcq(Details me, Details them) {
+    public static void confirmAcq(Details me, Details them) {
         String surl = HOST + String.format("confirmacq?id=%duser=%d", me.id, them.id);
 
-        threadExec(surl);
-    }
-
-
-    private void threadExec(String surl) {
-        DBWriterThread t = new DBWriterThread();
-        t.surl = surl;
-        t.start();
-    }
-
-    private class DBWriterThread extends Thread {
-        public String surl;
-
-        public void run() {
-            writeDB(surl);
-        }
+        writeDB(surl);
     }
 
 }

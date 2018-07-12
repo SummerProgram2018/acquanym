@@ -13,5 +13,7 @@ public class DBLoginParams {
     public LoginActivity activity;
 
     public String name;
+    public double latitude;
+    public double longitude;
     public RegisterActivity register;
 }

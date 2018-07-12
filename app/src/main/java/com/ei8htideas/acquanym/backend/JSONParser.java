@@ -190,7 +190,6 @@ public class JSONParser extends Thread {
     }
 
     public static void main(String[] args) throws EOFException {
-        System.out.println(new DBReader().verifyLogin("hobrien17", "pword3"));
     }
 
 }
