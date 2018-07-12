@@ -1,5 +1,6 @@
 package com.ei8htideas.acquanym;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.media.Image;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.DBWriter;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
+import com.ei8htideas.acquanym.backend.backend.acqadd.DBAddParams;
+import com.ei8htideas.acquanym.backend.backend.acqadd.DBConfirm;
+import com.ei8htideas.acquanym.backend.backend.search.DBAcqReqSearch;
+import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +46,17 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
     private List<Details> people;
     private ListView lv;
 
+    private ProgressDialog progress;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.acq_reqs_fragment, container, false);
+
+        progress = new ProgressDialog(this.getContext());
+        progress.setTitle("Searching users");
+        progress.setMessage("Please wait...");
+        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+
         populatePeopleList();
         return rootView;
     }
@@ -55,10 +68,9 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         getActivity().setTitle("Acquaintance Requests");
     }
 
-
-    private void populatePeopleList() {
-        //TODO: db stuff
-        people = new DBReader().searchAllAcqs(Session.getMyDetails(), "name"); // TODO: fix this - should be people who haven't confirmed?
+    public void populatePeopleListCallback(List<Details> result) {
+        progress.dismiss();
+        this.people = result;
 
         lv = (ListView)rootView.findViewById(R.id.list);
         adapter = new AcqReqsListAdapter(getActivity().getApplicationContext(), R.layout.reqs_list_item, people);
@@ -78,6 +90,14 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         });
     }
 
+    private void populatePeopleList() {
+        DBSearchParams params = new DBSearchParams();
+        params.me = Session.getMyDetails();
+        params.ar = this;
+        progress.show();
+        new DBAcqReqSearch().execute(params);
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -85,9 +105,14 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         Details person = people.get(position);
 
         if (viewId == R.id.confirm) {
-            // write to database confirmed
+            DBAddParams params = new DBAddParams();
+            params.me = Session.getMyDetails();
+            params.them = person;
+            new DBConfirm().execute(params);
         } else if (viewId == R.id.delete) {
             // write to database removed
+            // lul this isn't supported
+            //TODO: actually do this
         }
 
         people.remove(person);

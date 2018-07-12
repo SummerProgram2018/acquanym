@@ -52,7 +52,11 @@ public class DBReader {
                 details.longitude = (Double)map.get("longitude");
                 details.distance = (Double)map.get("distance");
                 details.title = (String)map.get("title");
-                details.age = (Integer)map.get("age");
+                if(map.get("age") == null) {
+                    details.age = null;
+                } else {
+                    details.age = ((Double) map.get("age")).intValue();
+                }
                 details.gender = (String)map.get("gender");
                 details.description = (String)map.get("description");
                 detailList.add(details);
@@ -70,42 +74,42 @@ public class DBReader {
         String surl = HOST + String.format("searchallacqs?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        return threadExec(surl);
+        return readDB(surl);
     }
 
     public static List<Details> searchAcqs(Details me, String order, String search) {
         String surl = HOST + String.format("searchacqs?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
-        return threadExec(surl);
+        return readDB(surl);
     }
 
     public static List<Details> searchAllUsers(Details me, String order) {
         String surl = HOST + String.format("searchallusers?lat=%f&long=%f&id=%d&order=%s",
                 me.latitude, me.longitude, me.id, order);
 
-        return threadExec(surl);
+        return readDB(surl);
     }
 
     public static List<Details> searchUsers(Details me, String order, String search) {
         String surl = HOST + String.format("searchusers?lat=%f&long=%f&id=%d&order=%s&search=%s",
                 me.latitude, me.longitude, me.id, order, search);
 
-        return threadExec(surl);
+        return readDB(surl);
     }
 
     public static List<Details> getNearby(Details me, double range) {
         String surl = HOST + String.format("nearbyacqs?lat=%f&long=%f&range=%f&id=%d",
                 me.latitude, me.longitude, range, me.id);
 
-        return threadExec(surl);
+        return readDB(surl);
     }
 
     public static List<Details> getAcqRequests(Details me) {
         String surl = HOST + String.format("confirmacq?lat=%f&long=%f&id=%d",
                 me.latitude, me.longitude, me.id);
 
-        return threadExec(surl);
+        return readDB(surl);
     }
 
     private final static char[] HEX_ARR = "0123456789ABCDEF".toCharArray();
@@ -134,7 +138,7 @@ public class DBReader {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        List<Details> list = threadExec(surl);
+        List<Details> list = readDB(surl);
         if(list.isEmpty()) {
             return false;
         }
@@ -158,32 +162,11 @@ public class DBReader {
             e.printStackTrace();
         }
 
-        List<Details> list = threadExec(surl);
+        List<Details> list = readDB(surl);
         if(list.isEmpty()) {
             return false;
         }
         Session.setMyDetails(list.get(0));
         return true;
-    }
-
-    private static List<Details> threadExec(String surl) {
-        DBReaderThread t = new DBReaderThread();
-        t.surl = surl;
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return t.result;
-    }
-
-    private static class DBReaderThread extends Thread {
-        public List<Details> result;
-        public String surl;
-
-        public void run() {
-            result = readDB(surl);
-        }
     }
 }
