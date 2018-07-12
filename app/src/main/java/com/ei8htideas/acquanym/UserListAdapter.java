@@ -37,7 +37,7 @@ public class UserListAdapter extends ArrayAdapter<Details> {
         Details currentPosition = getItem(position);
         if(currentPosition != null){
             ImageView image = (ImageView)arrayView.findViewById(R.id.Image);
-            //image.setImageResource(currentPosition.getImage());
+            image.setImageResource(R.drawable.joe);
 
             TextView name = (TextView)arrayView.findViewById(R.id.Name);
             name.setText(currentPosition.name);
