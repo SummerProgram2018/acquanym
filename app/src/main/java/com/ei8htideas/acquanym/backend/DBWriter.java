@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 /**
  * Created by Henry on 9/07/2018.
@@ -32,14 +33,35 @@ public class DBWriter {
         String surl = HOST + String.format("writelatlong?lat=%f&long=%f&id=%d",
                 me.latitude, me.longitude, me.id);
 
-        writeDB(surl);
+        threadExec(surl);
+
     }
 
     public void requestAcq(Details me, Details them) {
         String surl = HOST + String.format("addacq?id=%d&user=%d", me.id, them.id);
 
-        writeDB(surl);
+        threadExec(surl);
     }
 
+    public void confirmAcq(Details me, Details them) {
+        String surl = HOST + String.format("confirmacq?id=%duser=%d", me.id, them.id);
+
+        threadExec(surl);
+    }
+
+
+    private void threadExec(String surl) {
+        DBWriterThread t = new DBWriterThread();
+        t.surl = surl;
+        t.start();
+    }
+
+    private class DBWriterThread extends Thread {
+        public String surl;
+
+        public void run() {
+            writeDB(surl);
+        }
+    }
 
 }
