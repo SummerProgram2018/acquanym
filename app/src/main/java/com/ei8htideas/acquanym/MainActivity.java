@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Session.setMyDetails(new Details(3, "me3",  100, 100, 410, "student", "me", 19,  "Female", "a cool girl"));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
