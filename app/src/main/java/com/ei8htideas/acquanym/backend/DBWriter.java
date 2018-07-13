@@ -49,4 +49,10 @@ public class DBWriter {
         writeDB(surl);
     }
 
+    public static void deleteAcq(Details me, Details them) {
+        String surl = HOST + String.format("delreq?id=%duser=%d", me.id, them.id);
+
+        writeDB(surl);
+    }
+
 }

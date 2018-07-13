@@ -19,9 +19,4 @@ public class DBAdd extends AsyncTask<DBAddParams, Void, Void> {
         DBWriter.requestAcq(params[0].me, params[0].them);
         return null;
     }
-
-    @Override
-    protected void onPostExecute(Void v) {
-
-    }
 }
