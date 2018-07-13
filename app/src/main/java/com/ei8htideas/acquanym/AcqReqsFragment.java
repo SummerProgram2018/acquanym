@@ -90,6 +90,10 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void populatePeopleList() {
+        if(Session.isReady()) {
+            onLoad();
+            return;
+        }
         progress.show();
         new BackgroundLoad().execute(this);
     }

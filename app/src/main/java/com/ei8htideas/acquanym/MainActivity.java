@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity
                 fragment = new AcqReqsFragment();
                 break;
             case R.id.nav_logout:
-                break;
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                return;
         }
 
         //replacing the fragment

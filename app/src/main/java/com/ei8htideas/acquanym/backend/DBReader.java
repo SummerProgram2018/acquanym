@@ -106,10 +106,16 @@ public class DBReader {
     }
 
     public static List<Details> getAcqRequests(Details me) {
-        String surl = HOST + String.format("confirmacq?lat=%f&long=%f&id=%d",
+        String surl = HOST + String.format("checkrequests?lat=%f&long=%f&id=%d",
                 me.latitude, me.longitude, me.id);
 
         return readDB(surl);
+    }
+
+    public static Details getDetails(int id) {
+        String surl = HOST + String.format("details?id=%d", id);
+
+        return readDB(surl).get(0);
     }
 
     private final static char[] HEX_ARR = "0123456789ABCDEF".toCharArray();

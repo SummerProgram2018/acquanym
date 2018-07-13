@@ -73,8 +73,8 @@ public class Subprocess extends Service {
 
     private Thread mapUpdaterReqs = new Thread(new Runnable(){
         public void run() {
-            //List<Details> details = DBReader.getAcqRequests(Session.getMyDetails());
-            //Session.setRequests(details);
+            List<Details> details = DBReader.getAcqRequests(Session.getMyDetails());
+            Session.setRequests(details);
             Session.ready[2] = true;
         }
     });

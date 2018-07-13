@@ -20,8 +20,6 @@ import android.widget.ListView;
 import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
-import com.ei8htideas.acquanym.backend.backend.search.DBAcqSearch;
-import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
 import com.ei8htideas.acquanym.background.BackgroundLoad;
 
 import java.util.ArrayList;
