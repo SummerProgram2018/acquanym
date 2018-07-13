@@ -82,6 +82,7 @@ public class Subprocess extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         me = Session.getMyDetails();
+        Log.i("Session", me.toString());
         handler.postDelayed(runnable, 0);
         return START_STICKY;
     }
@@ -89,23 +90,26 @@ public class Subprocess extends Service {
     private void setLastLoc() {
         client = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
+            String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions(Session.getMain(), perms, 1);
             Log.e("Location", "No perms");
+            return;
         }
         client.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // GPS location can be null if GPS is switched off
-                        if (lastLoc == null || (location != null && (location.getLatitude() != lastLoc.getLatitude()
+                        if (location != null && (lastLoc == null || (location.getLatitude() != lastLoc.getLatitude()
                                 || location.getLongitude() != lastLoc.getLongitude()))) {
                             me.latitude = location.getLatitude();
                             me.longitude = location.getLongitude();
                             lastLoc = location;
                             DBWriter.writeLocation(me);
                             Log.d("Location", "Location written to DB: " + me.latitude + ", " + me.longitude);
+                        } else {
+                            Log.i("Location", "cannot write");
                         }
                     }
                 })
