@@ -22,8 +22,7 @@ import android.widget.ListView;
 import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
-import com.ei8htideas.acquanym.backend.backend.search.DBAcqSearch;
-import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
+import com.ei8htideas.acquanym.background.BackgroundLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.Locale;
  * Created by Frances on 09/07/2018.
  */
 
-public class AcqListFragment extends Fragment {
+public class AcqListFragment extends Fragment implements Loader {
 
     private View rootView;
     private ArrayAdapter<Details> adapter;
@@ -53,7 +52,7 @@ public class AcqListFragment extends Fragment {
         imm.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
 
         progress = new ProgressDialog(this.getContext());
-        progress.setTitle("Searching users");
+        progress.setTitle("Setting up");
         progress.setMessage("Please wait...");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
 
@@ -130,9 +129,9 @@ public class AcqListFragment extends Fragment {
         });
     }
 
-    public void populatePeopleListCallback(List<Details> result) {
+    public void onLoad() {
         progress.dismiss();
-        this.people = result;
+        this.people = Session.getMyAcqs();
 
         searchResults.addAll(people);
         filterResults.addAll(people);
@@ -156,13 +155,12 @@ public class AcqListFragment extends Fragment {
     }
 
     private void populatePeopleList() {
-        DBSearchParams params = new DBSearchParams();
-        params.me = Session.getMyDetails();
-        params.order = "name";
-        params.al = this;
+        if(Session.isReady()) {
+            onLoad();
+            return;
+        }
         progress.show();
-        new DBAcqSearch().execute(params);
-
+        new BackgroundLoad().execute(this);
     }
 
 

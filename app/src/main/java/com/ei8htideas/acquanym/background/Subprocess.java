@@ -42,6 +42,10 @@ public class Subprocess extends Service {
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         public void run() {
+            Log.i("Subprocess", "updating...");
+            mapUpdaterUsers.start();
+            mapUpdaterAcqs.start();
+            mapUpdaterReqs.start();
             setLastLoc();
             handler.postDelayed(runnable, SERVICE_DELAY);
         }
@@ -50,6 +54,30 @@ public class Subprocess extends Service {
     private FusedLocationProviderClient client;
     private Location lastLoc;
     private static final int SERVICE_DELAY = 1000*60*2;
+
+    private Thread mapUpdaterUsers = new Thread(new Runnable(){
+        public void run() {
+            List<Details> details = DBReader.searchAllUsers(Session.getMyDetails(), "name");
+            Session.setUsers(details);
+            Session.ready[0] = true;
+        }
+    });
+
+    private Thread mapUpdaterAcqs = new Thread(new Runnable(){
+        public void run() {
+            List<Details> details = DBReader.searchAllAcqs(Session.getMyDetails(), "name");
+            Session.setMyAcqs(details);
+            Session.ready[1] = true;
+        }
+    });
+
+    private Thread mapUpdaterReqs = new Thread(new Runnable(){
+        public void run() {
+            List<Details> details = DBReader.getAcqRequests(Session.getMyDetails());
+            Session.setRequests(details);
+            Session.ready[2] = true;
+        }
+    });
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

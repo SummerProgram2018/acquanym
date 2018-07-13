@@ -27,8 +27,7 @@ import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.backend.backend.acqadd.DBAddParams;
 import com.ei8htideas.acquanym.backend.backend.acqadd.DBConfirm;
-import com.ei8htideas.acquanym.backend.backend.search.DBAcqReqSearch;
-import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
+import com.ei8htideas.acquanym.background.BackgroundLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ import java.util.Locale;
  * Created by Henry on 09/07/2018.
  */
 
-public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClickListener, Loader {
 
     private View rootView;
     private ArrayAdapter<Details> adapter;
@@ -68,9 +67,9 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         getActivity().setTitle("Acquaintance Requests");
     }
 
-    public void populatePeopleListCallback(List<Details> result) {
+    public void onLoad() {
         progress.dismiss();
-        this.people = result;
+        this.people = Session.getRequests();
 
         lv = (ListView)rootView.findViewById(R.id.list);
         adapter = new AcqReqsListAdapter(getActivity().getApplicationContext(), R.layout.reqs_list_item, people);
@@ -91,11 +90,12 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     private void populatePeopleList() {
-        DBSearchParams params = new DBSearchParams();
-        params.me = Session.getMyDetails();
-        params.ar = this;
+        if(Session.isReady()) {
+            onLoad();
+            return;
+        }
         progress.show();
-        new DBAcqReqSearch().execute(params);
+        new BackgroundLoad().execute(this);
     }
 
 

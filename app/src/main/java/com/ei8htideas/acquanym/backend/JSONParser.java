@@ -1,5 +1,7 @@
 package com.ei8htideas.acquanym.backend;
 
+import android.util.Log;
+
 import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.HashMap;
