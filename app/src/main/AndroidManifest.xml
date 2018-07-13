@@ -54,12 +54,8 @@
 
 
 
-        <!--
-       <meta-data
-           android:name="com.google.android.maps.v2.API_KEY"
-           android:value="AIzaSyCTML5e1iLIi0LN23AgAgJDEbPC5b5hXpo" />
        <activity
-           android:name=".sign_in"
+           android:name=".FBSignIn"
            android:label="@string/title_activity_main"
            android:theme="@style/AppTheme.NoActionBar">
            <intent-filter>
@@ -67,8 +63,6 @@
 
                <category android:name="android.intent.category.LAUNCHER" />
            </intent-filter>
-       </activity>
-       -->
 
 
        <service android:name=".background.Subprocess" />
