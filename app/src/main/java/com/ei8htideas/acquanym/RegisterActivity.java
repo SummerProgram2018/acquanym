@@ -58,6 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mEmailView;
     private AutoCompleteTextView mNameView;
+    private AutoCompleteTextView mDobView;
+    private AutoCompleteTextView mTitleView;
+    private AutoCompleteTextView mDescView;
     private EditText mPasswordView;
     private EditText mPasswordConfirmView;
 
@@ -73,6 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordConfirmView = (EditText) findViewById(R.id.cpassword);
+
+        mDobView = (AutoCompleteTextView) findViewById(R.id.dob);
+        mTitleView = (AutoCompleteTextView) findViewById(R.id.title);
+        mDescView = (AutoCompleteTextView) findViewById(R.id.desc);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.register_btn);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -94,11 +101,17 @@ public class RegisterActivity extends AppCompatActivity {
     private String username;
     private String name;
     private String password;
+    private String dob;
+    private String title;
+    private String desc;
 
     private void attemptLogin() {
         username = mEmailView.getText().toString();
         name = mNameView.getText().toString();
         password = mPasswordView.getText().toString();
+        dob = mDobView.getText().toString();
+        title = mTitleView.getText().toString();
+        desc = mDescView.getText().toString();
         String cPassword = mPasswordConfirmView.getText().toString();
         if (!password.equals(cPassword)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -128,6 +141,9 @@ public class RegisterActivity extends AppCompatActivity {
         DBLoginParams params = new DBLoginParams();
         params.username = username;
         params.password = password;
+        params.dob = dob;
+        params.title = title;
+        params.desc = desc;
         params.latitude = latitude;
         params.longitude = longitude;
         params.name = name;

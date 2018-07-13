@@ -27,7 +27,9 @@ public class Session {
     private static MainActivity main;
 
     public static List<Details> getMyAcqs() {
-        return myAcqs;
+        synchronized (lock) {
+            return myAcqs;
+        }
     }
 
     public static void setMyAcqs(List<Details> myAcqs) {
@@ -35,7 +37,9 @@ public class Session {
     }
 
     public static List<Details> getUsers() {
-        return users;
+        synchronized(lock) {
+            return users;
+        }
     }
 
     public static void setUsers(List<Details> users) {
@@ -43,7 +47,9 @@ public class Session {
     }
 
     public static List<Details> getRequests() {
-        return requests;
+        synchronized(lock){
+            return requests;
+        }
     }
 
     public static void setRequests(List<Details> requests) {
@@ -55,7 +61,7 @@ public class Session {
     private static List<Details> requests = new LinkedList<>();
 
     public static boolean[] ready = {false, false, false};
-    public static Object lock = new Object();
+    public static final Object lock = new Object();
 
     public static void setMain(MainActivity main) {
         Session.main = main;
@@ -74,7 +80,9 @@ public class Session {
     }
 
     public static boolean isReady() {
-        return Session.ready[0] && Session.ready[1] && Session.ready[2];
+        synchronized (lock) {
+            return Session.ready[0] && Session.ready[1] && Session.ready[2];
+        }
     }
 
 }

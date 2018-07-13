@@ -33,7 +33,7 @@ public class AddFragment extends Fragment {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         View v = inflater.inflate(R.layout.add_fragment, container, false);
-        addBtn = (Button) container.findViewById(R.id.sign_in_btn);
+        addBtn = (Button) v.findViewById(R.id.add_button);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +41,7 @@ public class AddFragment extends Fragment {
                 params.me = Session.getMyDetails();
                 params.them = AddFragment.this.them;
                 new DBAdd().execute(params);
+                Session.getUsers().remove(them);
                 UserListFragment fragment = new UserListFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction ft = fragmentManager.beginTransaction();

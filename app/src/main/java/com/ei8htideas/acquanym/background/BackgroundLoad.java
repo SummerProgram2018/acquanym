@@ -6,7 +6,6 @@ import com.ei8htideas.acquanym.Loader;
 import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
-import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
 
 import java.lang.reflect.Method;
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.ei8htideas.acquanym.backend.backend.acqadd;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ei8htideas.acquanym.backend.DBWriter;
 
@@ -15,6 +16,7 @@ public class DBConfirm extends AsyncTask<DBAddParams, Void, Void> {
     protected Void doInBackground(DBAddParams... params) {
         this.params = params[0];
         DBWriter.confirmAcq(params[0].me, params[0].them);
+        Log.i("Confirm", "confirmed");
         return null;
     }
 }

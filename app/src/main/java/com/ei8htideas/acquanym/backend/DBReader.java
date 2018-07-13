@@ -153,7 +153,8 @@ public class DBReader {
     }
 
     public static boolean newAccount(String username, String password, String name,
-                                     double latitude, double longitude) {
+                                     double latitude, double longitude, String dob,
+                                     String title, String desc) {
         String surl = "";
 
         try {
@@ -162,8 +163,8 @@ public class DBReader {
             String eUsername = encodeHexString(md5.digest(username.getBytes())).toLowerCase();
             String ePassword = encodeHexString(sha1.digest(password.getBytes())).toLowerCase();
 
-            surl = HOST + String.format("newaccount?username=%s&pword=%s&name=%s&lat=%f&long=%f",
-                    eUsername, ePassword, name, latitude, longitude);
+            surl = HOST + String.format("newaccount?username=%s&pword=%s&name=%s&lat=%f&long=%f&dob=%s&title=%s&desc=%s",
+                    eUsername, ePassword, name, latitude, longitude, dob, title, desc);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
