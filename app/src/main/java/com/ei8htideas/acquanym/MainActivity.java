@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_settings:
                 break;
             case R.id.nav_reqs:
-                fragment = new TestAcqReqsFragment();
+                fragment = new AcqReqsFragment();
                 break;
             case R.id.nav_logout:
                 break;
