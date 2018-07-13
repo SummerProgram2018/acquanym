@@ -45,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:focusable="false"
             app:srcCompat="@drawable/ic_confirm" />
 
         <ImageButton
@@ -54,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:focusable="false"
             app:srcCompat="@drawable/ic_delete" />
 
     </LinearLayout>
