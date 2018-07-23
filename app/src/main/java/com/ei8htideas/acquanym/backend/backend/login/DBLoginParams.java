@@ -10,6 +10,9 @@ import com.ei8htideas.acquanym.RegisterActivity;
 public class DBLoginParams {
     public String username;
     public String password;
+    public String dob;
+    public String title;
+    public String desc;
     public LoginActivity activity;
 
     public String name;

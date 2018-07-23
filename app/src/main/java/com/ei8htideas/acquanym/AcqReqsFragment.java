@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,7 @@ import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.backend.backend.acqadd.DBAddParams;
 import com.ei8htideas.acquanym.backend.backend.acqadd.DBConfirm;
-import com.ei8htideas.acquanym.backend.backend.search.DBAcqReqSearch;
-import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
+import com.ei8htideas.acquanym.background.BackgroundLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.Locale;
  * Created by Henry on 09/07/2018.
  */
 
-public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClickListener, Loader {
 
     private View rootView;
     private ArrayAdapter<Details> adapter;
@@ -68,9 +68,9 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         getActivity().setTitle("Acquaintance Requests");
     }
 
-    public void populatePeopleListCallback(List<Details> result) {
+    public void onLoad() {
         progress.dismiss();
-        this.people = result;
+        this.people = Session.getRequests();
 
         lv = (ListView)rootView.findViewById(R.id.list);
         adapter = new AcqReqsListAdapter(getActivity().getApplicationContext(), R.layout.reqs_list_item, people);
@@ -79,23 +79,38 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProfileFragment fragment = new ProfileFragment();
+                Log.i("Help", "whatudoinmate");
+                Details person = people.get(position);
+                DBAddParams params = new DBAddParams();
+                params.me = Session.getMyDetails();
+                params.them = person;
+                new DBConfirm().execute(params);
+                synchronized (Session.lock) {
+                    Session.getRequests().remove(person);
+                }
+                AcqReqsFragment fragment = new AcqReqsFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                ft.commit();
+                /*ProfileFragment fragment = new ProfileFragment();
                 fragment.passData(people.get(position));
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
         });
     }
 
     private void populatePeopleList() {
-        DBSearchParams params = new DBSearchParams();
-        params.me = Session.getMyDetails();
-        params.ar = this;
+        if(Session.isReady()) {
+            onLoad();
+            return;
+        }
         progress.show();
-        new DBAcqReqSearch().execute(params);
+        new BackgroundLoad().execute(this);
     }
 
 
@@ -104,15 +119,12 @@ public class AcqReqsFragment extends Fragment implements AdapterView.OnItemClick
         long viewId = view.getId();
         Details person = people.get(position);
 
-        if (viewId == R.id.confirm) {
-            DBAddParams params = new DBAddParams();
-            params.me = Session.getMyDetails();
-            params.them = person;
-            new DBConfirm().execute(params);
-        } else if (viewId == R.id.delete) {
-            // write to database removed
-            // lul this isn't supported
-            //TODO: actually do this
+        DBAddParams params = new DBAddParams();
+        params.me = Session.getMyDetails();
+        params.them = person;
+        new DBConfirm().execute(params);
+        synchronized (Session.lock) {
+            Session.getRequests().remove(person);
         }
 
         people.remove(person);

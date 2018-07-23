@@ -44,7 +44,13 @@ public class DBWriter {
     }
 
     public static void confirmAcq(Details me, Details them) {
-        String surl = HOST + String.format("confirmacq?id=%duser=%d", me.id, them.id);
+        String surl = HOST + String.format("confirmacq?id=%d&user=%d", me.id, them.id);
+
+        writeDB(surl);
+    }
+
+    public static void deleteAcq(Details me, Details them) {
+        String surl = HOST + String.format("delreq?id=%d&user=%d", me.id, them.id);
 
         writeDB(surl);
     }

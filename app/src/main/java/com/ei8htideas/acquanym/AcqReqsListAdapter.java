@@ -1,6 +1,7 @@
 package com.ei8htideas.acquanym;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +37,16 @@ public class AcqReqsListAdapter extends ArrayAdapter<Details> {
         if(arrayView == null){
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            arrayView = vi.inflate(R.layout.list_item, parent, false);
+            arrayView = vi.inflate(R.layout.reqs_list_item, parent, false);
         }
 
+        ImageButton confirm = (ImageButton) arrayView.findViewById(R.id.confirm);
+        ImageButton delete = (ImageButton) arrayView.findViewById(R.id.delete);
         final Details currentPosition = getItem(position);
         if(currentPosition != null){
+            confirm.setImageResource(R.drawable.ic_confirm);
+            delete.setImageResource(R.drawable.ic_delete);
+
             ImageView image = (ImageView)arrayView.findViewById(R.id.Image);
             image.setImageResource(R.drawable.joe);
 
@@ -51,8 +57,7 @@ public class AcqReqsListAdapter extends ArrayAdapter<Details> {
             job.setText(currentPosition.title);
         }
 
-        ImageButton confirm = (ImageButton) arrayView.findViewById(R.id.confirm);
-        ImageButton delete = (ImageButton) arrayView.findViewById(R.id.delete);
+
         final ViewGroup tempParent = parent;
 
         confirm.setOnClickListener(new View.OnClickListener() {

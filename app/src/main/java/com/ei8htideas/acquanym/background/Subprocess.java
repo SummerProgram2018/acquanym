@@ -42,6 +42,10 @@ public class Subprocess extends Service {
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         public void run() {
+            Log.i("Subprocess", "updating...");
+            new MapUpdaterUsers().start();
+            new MapUpdaterAcqs().start();
+            new MapUpdaterReqs().start();
             setLastLoc();
             handler.postDelayed(runnable, SERVICE_DELAY);
         }
@@ -49,7 +53,38 @@ public class Subprocess extends Service {
 
     private FusedLocationProviderClient client;
     private Location lastLoc;
-    private static final int SERVICE_DELAY = 1000*60*2;
+    private static final int SERVICE_DELAY = 1000*60*1;
+
+    private class MapUpdaterUsers extends Thread {
+        public void run() {
+            List<Details> details = DBReader.searchAllUsers(Session.getMyDetails(), "name");
+            synchronized (Session.lock) {
+                Session.setUsers(details);
+                Session.ready[0] = true;
+            }
+        }
+    }
+
+    private class MapUpdaterAcqs extends Thread {
+        public void run() {
+            List<Details> details = DBReader.searchAllAcqs(Session.getMyDetails(), "name");
+            Log.i("Session", details.toString());
+            synchronized (Session.lock) {
+                Session.setMyAcqs(details);
+                Session.ready[1] = true;
+            }
+        }
+    }
+
+    private class MapUpdaterReqs extends Thread {
+        public void run() {
+            List<Details> details = DBReader.getAcqRequests(Session.getMyDetails());
+            synchronized (Session.lock) {
+                Session.setRequests(details);
+                Session.ready[2] = true;
+            }
+        }
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -61,23 +96,26 @@ public class Subprocess extends Service {
     private void setLastLoc() {
         client = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
+            String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions(Session.getMain(), perms, 1);
             Log.e("Location", "No perms");
+            return;
         }
         client.getLastLocation()
                 .addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // GPS location can be null if GPS is switched off
-                        if (lastLoc == null || (location != null && (location.getLatitude() != lastLoc.getLatitude()
+                        if (location != null && (lastLoc == null || (location.getLatitude() != lastLoc.getLatitude()
                                 || location.getLongitude() != lastLoc.getLongitude()))) {
                             me.latitude = location.getLatitude();
                             me.longitude = location.getLongitude();
                             lastLoc = location;
                             DBWriter.writeLocation(me);
                             Log.d("Location", "Location written to DB: " + me.latitude + ", " + me.longitude);
+                        } else {
+                            Log.i("Location", "cannot write");
                         }
                     }
                 })

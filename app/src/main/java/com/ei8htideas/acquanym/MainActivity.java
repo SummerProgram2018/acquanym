@@ -44,17 +44,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         Session.setMain(this);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("MainActivity", "service started");
-                startService(view);
-                Snackbar.make(view, "Service has started!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        startService();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -124,7 +114,11 @@ public class MainActivity extends AppCompatActivity
                 fragment = new AcqReqsFragment();
                 break;
             case R.id.nav_logout:
-                break;
+                Session.ready[0] = false;
+                Session.ready[1] = false;
+                Session.ready[2] = false;
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                return;p
         }
 
         //replacing the fragment
@@ -147,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void startService(View view) {
+    public void startService() {
         Intent intent = new Intent(getBaseContext(), Subprocess.class);
         startService(intent);
     }

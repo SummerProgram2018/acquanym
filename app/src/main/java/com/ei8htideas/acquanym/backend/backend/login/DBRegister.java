@@ -14,7 +14,8 @@ public class DBRegister extends AsyncTask<DBLoginParams, Void, Boolean> {
     protected Boolean doInBackground(DBLoginParams... params) {
         this.params = params[0];
         return DBReader.newAccount(params[0].username, params[0].password, params[0].name,
-                params[0].latitude, params[0].longitude);
+                params[0].latitude, params[0].longitude, params[0].dob, params[0].title,
+                params[0].desc);
     }
 
     protected void onPostExecute(Boolean result) {

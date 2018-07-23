@@ -22,8 +22,7 @@ import com.ei8htideas.acquanym.backend.DBReader;
 import com.ei8htideas.acquanym.backend.Details;
 import com.ei8htideas.acquanym.backend.Session;
 import com.ei8htideas.acquanym.ProfileFragment;
-import com.ei8htideas.acquanym.backend.backend.search.DBSearchParams;
-import com.ei8htideas.acquanym.backend.backend.search.DBUserSearch;
+import com.ei8htideas.acquanym.background.BackgroundLoad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.Locale;
  * Created by Frances on 09/07/2018.
  */
 
-public class UserListFragment extends Fragment {
+public class UserListFragment extends Fragment implements Loader {
     private View rootView;
     private ArrayAdapter<Details> adapter;
     private List<Details> people;
@@ -50,7 +49,7 @@ public class UserListFragment extends Fragment {
         rootView = inflater.inflate(R.layout.user_list_fragment, container, false);
 
         progress = new ProgressDialog(this.getContext());
-        progress.setTitle("Searching users");
+        progress.setTitle("Setting up");
         progress.setMessage("Please wait...");
         progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
 
@@ -127,10 +126,10 @@ public class UserListFragment extends Fragment {
         });
     }
 
-    public void populatePeopleListCallback(List<Details> result) {
-        progress.hide();
+    public void onLoad() {
+        progress.dismiss();
 
-        this.people = result;
+        this.people = Session.getUsers();
         searchResults.addAll(people);
         filterResults.addAll(people);
 
@@ -153,12 +152,12 @@ public class UserListFragment extends Fragment {
     }
 
     private void populatePeopleList() {
-        DBSearchParams params = new DBSearchParams();
-        params.ul = this;
-        params.me = Session.getMyDetails();
-        params.order = "name";
+        if(Session.isReady()) {
+            onLoad();
+            return;
+        }
         progress.show();
-        new DBUserSearch().execute(params);
+        new BackgroundLoad().execute(this);
     }
 
 
